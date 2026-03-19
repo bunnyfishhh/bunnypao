@@ -51,7 +51,7 @@
         .input-box { display: flex; flex-direction: column; gap: 3px; }
         .input-box label { font-size: 0.65rem; font-weight: 600; color: #636e72; text-align: center; }
         .input-box input { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #eee; text-align: center; font-size: 0.8rem; outline: none; }
-        .api-input-container { grid-column: span 3; margin-top: 5px; }
+        .api-input-container { grid-column: span 3; margin-top: 12px; border-top: 1px dashed #eee; padding-top: 10px; }
 
         @keyframes breatheAnim { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(4); opacity: 1; } }
     </style>
@@ -108,12 +108,16 @@
             <div class="input-box"><label>น้ำหนัก</label><input type="number" id="weight" placeholder="kg"></div>
             <div class="input-box"><label>ส่วนสูง</label><input type="number" id="height" placeholder="cm"></div>
             <div class="input-box"><label>การนอน</label><input type="number" id="sleepHrs" placeholder="ชม."></div>
-            <div class="input-box api-input-container">
+        </div>
+        <button class="btn btn-eat" onclick="saveBodyData()" style="width:100%; margin-top: 10px;">บันทึกร่างกาย 💾</button>
+
+        <div class="api-input-container">
+            <div class="input-box">
                 <label>🔑 Gemini API Key (คีย์ส่วนตัวของคุณ)</label>
                 <input type="password" id="apiKey" placeholder="วาง AIzaSy... ที่นี่">
             </div>
+            <button class="btn btn-pink" onclick="saveApiKey()" style="width:100%; margin-top: 10px; background: #a29bfe;">เชื่อมต่อ AI 🔑</button>
         </div>
-        <button class="btn btn-eat" onclick="saveAndCalc()" style="width:100%; margin-top: 10px;">บันทึกข้อมูล & ตั้งค่า</button>
     </div>
 
 <script>
@@ -127,10 +131,28 @@
         if(localStorage.getItem('jp_history')) {
             historyData = JSON.parse(localStorage.getItem('jp_history'));
         }
-        saveAndCalc();
+        calculateBMR();
+        updateUI();
     };
 
-    function saveAndCalc() {
+    // แยกฟังก์ชันบันทึกสรีระ
+    function saveBodyData() {
+        ['weight', 'height', 'sleepHrs'].forEach(id => {
+            localStorage.setItem('jp_'+id, document.getElementById(id).value);
+        });
+        calculateBMR();
+        updateUI();
+        alert("บันทึกข้อมูลสรีระเรียบร้อยค่ะ! 🐰");
+    }
+
+    // แยกฟังก์ชันบันทึก API Key
+    function saveApiKey() {
+        const key = document.getElementById('apiKey').value;
+        localStorage.setItem('jp_apiKey', key);
+        alert("เชื่อมต่อ API Key เรียบร้อยแล้วค่ะ! ⚡");
+    }
+
+    function calculateBMR() {
         const w = parseFloat(document.getElementById('weight').value) || 0;
         const h = parseFloat(document.getElementById('height').value) || 0;
         
@@ -145,14 +167,10 @@
             else status = "หยุดกินเถอะแม่! 🛑";
             document.getElementById('weightStatus').innerText = status;
 
-            // คำนวณ BMR ผู้หญิง อายุ 29
             const bmr = (10 * w) + (6.25 * h) - (5 * 29) - 161;
             dailyBudget = Math.round(bmr * 1.1); 
             document.getElementById('sumBudget').innerText = dailyBudget;
-
-            ['weight', 'height', 'sleepHrs', 'apiKey'].forEach(id => localStorage.setItem('jp_'+id, document.getElementById(id).value));
         }
-        updateUI();
     }
 
     async function processEntry(type) {
@@ -167,8 +185,8 @@
             : `วิเคราะห์การออกกำลังกาย: "${input}" ตอบ JSON: {"name": "ชื่อกิจกรรม", "cal": 150, "msg": "คำชมกวนๆ"}`;
 
         try {
-            // ใช้โมเดล gemini-2.0-flash ตามที่ต้องการ
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+            // ใช้โมเดล gemini-2.0-flash
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: `คุณคือ bunnypao ${prompt}` }] }] })
