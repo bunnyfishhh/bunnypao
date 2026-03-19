@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>bunnypao 🐰⚡</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root { --pink: #ff78cb; --blue: #74b9ff; --orange: #ff9f43; --dark: #2d3436; --bg: #f7f9fc; }
@@ -44,10 +47,11 @@
         #breatheLabel { font-size: 0.8rem; color: var(--pink); font-weight: 600; margin-bottom: 8px; }
 
         .settings-section { width: 100%; max-width: 480px; background: #fff; border-radius: 20px; padding: 15px; box-sizing: border-box; border: 1px solid #f0f0f0; }
-        .settings-grid { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; align-items: flex-end; }
+        .settings-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
         .input-box { display: flex; flex-direction: column; gap: 3px; }
         .input-box label { font-size: 0.65rem; font-weight: 600; color: #636e72; text-align: center; }
         .input-box input { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #eee; text-align: center; font-size: 0.8rem; outline: none; }
+        .api-input-container { grid-column: span 3; margin-top: 5px; }
 
         @keyframes breatheAnim { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(4); opacity: 1; } }
     </style>
@@ -104,17 +108,20 @@
             <div class="input-box"><label>น้ำหนัก</label><input type="number" id="weight" placeholder="kg"></div>
             <div class="input-box"><label>ส่วนสูง</label><input type="number" id="height" placeholder="cm"></div>
             <div class="input-box"><label>การนอน</label><input type="number" id="sleepHrs" placeholder="ชม."></div>
-            <button class="btn btn-eat" onclick="saveAndCalc()" style="width:auto; padding: 10px 12px; font-size: 0.75rem;">บันทึก</button>
+            <div class="input-box api-input-container">
+                <label>🔑 Gemini API Key (คีย์ส่วนตัวของคุณ)</label>
+                <input type="password" id="apiKey" placeholder="วาง AIzaSy... ที่นี่">
+            </div>
         </div>
+        <button class="btn btn-eat" onclick="saveAndCalc()" style="width:100%; margin-top: 10px;">บันทึกข้อมูล & ตั้งค่า</button>
     </div>
 
 <script>
-    const API_KEY = "AIzaSyAbiMJ8uUxfyVXPhnpOtIxlr6zj6JxP0wY"; 
     let historyData = [];
     let dailyBudget = 2000;
 
     window.onload = () => {
-        ['weight', 'height', 'sleepHrs'].forEach(id => {
+        ['weight', 'height', 'sleepHrs', 'apiKey'].forEach(id => {
             if(localStorage.getItem('jp_'+id)) document.getElementById(id).value = localStorage.getItem('jp_'+id);
         });
         if(localStorage.getItem('jp_history')) {
@@ -128,7 +135,6 @@
         const h = parseFloat(document.getElementById('height').value) || 0;
         
         if (w && h) {
-            // 1. คำนวณ BMI & แสดงสภาพร่างกาย
             const heightInMeters = h / 100;
             const bmi = (w / (heightInMeters * heightInMeters)).toFixed(1);
             let status = "";
@@ -139,26 +145,30 @@
             else status = "หยุดกินเถอะแม่! 🛑";
             document.getElementById('weightStatus').innerText = status;
 
-            // 2. คำนวณเป้าหมายแคลอรี่รายวัน (BMR x 1.1)
-            // สูตรผู้หญิง: (10 x น้ำหนัก) + (6.25 x ส่วนสูง) - (5 x อายุ) - 161
+            // คำนวณ BMR ผู้หญิง อายุ 29
             const bmr = (10 * w) + (6.25 * h) - (5 * 29) - 161;
             dailyBudget = Math.round(bmr * 1.1); 
             document.getElementById('sumBudget').innerText = dailyBudget;
 
-            ['weight', 'height', 'sleepHrs'].forEach(id => localStorage.setItem('jp_'+id, document.getElementById(id).value));
+            ['weight', 'height', 'sleepHrs', 'apiKey'].forEach(id => localStorage.setItem('jp_'+id, document.getElementById(id).value));
         }
         updateUI();
     }
 
     async function processEntry(type) {
+        const key = document.getElementById('apiKey').value;
+        if(!key) { alert("กรุณาใส่ API Key ในส่วน Settings ก่อนนะคะ!"); return; }
+
         const input = document.getElementById('mainInput').value;
         if(!input) return;
+
         const prompt = type === 'eat' 
             ? `วิเคราะห์อาหาร: "${input}" ตอบ JSON: {"name": "ชื่อเมนู", "cal": 200, "msg": "คำจิกกัดแบบกระต่ายสั้นๆ"}` 
             : `วิเคราะห์การออกกำลังกาย: "${input}" ตอบ JSON: {"name": "ชื่อกิจกรรม", "cal": 150, "msg": "คำชมกวนๆ"}`;
 
         try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${API_KEY}`, {
+            // ใช้โมเดล gemini-2.0-flash ตามที่ต้องการ
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: `คุณคือ bunnypao ${prompt}` }] }] })
@@ -171,13 +181,15 @@
             localStorage.setItem('jp_history', JSON.stringify(historyData));
             updateUI();
             document.getElementById('mainInput').value = '';
-        } catch (e) { document.getElementById('coachSpeech').innerText = "มึนค่ะ! ลองพิมพ์ใหม่อีกที!"; }
+        } catch (e) { alert("เกิดข้อผิดพลาด! ลองเช็ก API Key หรืออินเทอร์เน็ตดูนะคะ"); }
     }
 
     function removeLog(id) {
-        historyData = historyData.filter(item => item.id !== id);
-        localStorage.setItem('jp_history', JSON.stringify(historyData));
-        updateUI();
+        if(confirm("ลบรายการนี้ใช่ไหมคะ?")) {
+            historyData = historyData.filter(item => item.id !== id);
+            localStorage.setItem('jp_history', JSON.stringify(historyData));
+            updateUI();
+        }
     }
 
     function updateUI() {
@@ -204,7 +216,7 @@
             <tr>
                 <td style="color: ${h.type==='burn'?'var(--orange)':'inherit'}">${h.type==='burn'?'🔥':'🍔'} ${h.name}</td>
                 <td><b style="color: ${h.type==='burn'?'#27ae60':'#c0392b'}">${h.cal > 0 ? '+'+h.cal : h.cal}</b></td>
-                <td><button onclick="removeLog(${h.id})" style="color:red; border:none; background:none; font-weight:bold;">×</button></td>
+                <td><button onclick="removeLog(${h.id})" style="color:red; border:none; background:none; font-weight:bold; cursor:pointer;">×</button></td>
             </tr>
         `).join('');
     }
@@ -218,7 +230,7 @@
         setTimeout(() => { c.style.display = 'none'; l.innerText = "เก่งมากค่ะ! กลับมาสู้ต่อแบบสวยๆ นะ ✨"; }, 16000);
     }
 
-    function resetDay() { if(confirm("เริ่มวันใหม่?")) { historyData = []; localStorage.setItem('jp_history', "[]"); updateUI(); } }
+    function resetDay() { if(confirm("เริ่มวันใหม่? รายการทั้งหมดของวันนี้จะหายไปนะคะ")) { historyData = []; localStorage.setItem('jp_history', "[]"); updateUI(); } }
 </script>
 </body>
 </html>
