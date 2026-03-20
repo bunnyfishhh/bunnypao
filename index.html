@@ -11,36 +11,23 @@
     <style>
         :root { --pink: #ff78cb; --blue: #74b9ff; --orange: #ff9f43; --dark: #2d3436; --bg: #f7f9fc; --carb: #fab1a0; --pro: #55efc4; --fat: #ffeaa7; --light-pink: #fff0f9; }
         body { font-family: 'Sarabun', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; color: var(--dark); overflow-x: hidden; }
-        
-        /* 🐰 Coach Bubble */
         .coach-bubble { background: white; padding: 15px; border-radius: 20px; position: relative; margin-bottom: 15px; font-size: 0.85rem; border: 2px solid var(--pink); border-left: 10px solid var(--pink); box-shadow: 0 8px 15px rgba(255,120,203,0.1); width: 100%; max-width: 480px; box-sizing: border-box; text-align: left; }
         .coach-bubble::before { content: '🐰 bunnypao (ปากแจ๋ว):'; font-weight: 600; color: var(--pink); display: block; margin-bottom: 3px; }
-
-        /* 📊 Dashboard Grid */
         .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 480px; margin-bottom: 15px; }
         .sum-card { background: white; padding: 12px; border-radius: 18px; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; }
         .sum-card span { font-size: 0.7rem; color: #95a5a6; }
         .sum-card b { font-size: 1.1rem; }
-
-        /* 📝 Report Box */
         .report-box { background: white; padding: 15px; border-radius: 20px; border-left: 5px solid var(--pink); width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; text-align: left; font-size: 0.85rem; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
-
         .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 480px; text-align: center; margin-bottom: 15px; box-sizing: border-box; }
-        
-        /* 🍯 Character & Tummy Logic */
         .top-analysis { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; margin-bottom: 15px; background: #fffcfd; padding: 12px; border-radius: 20px; border: 1px solid #ffeef8; align-items: center; }
         .character-container { position: relative; width: 120px; height: 150px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: center; overflow: visible; }
         .cute-character { position: relative; width: 100%; height: auto; z-index: 2; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); cursor: pointer; }
         .tummy-layer { position: absolute; bottom: 35px; width: 85px; height: 75px; background: rgba(255, 255, 255, 0.9); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; z-index: 1; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: inset 0 -5px 15px rgba(0,0,0,0.05); display: none; }
         .n-badge { display: flex; justify-content: space-between; padding: 4px 10px; border-radius: 8px; margin-bottom: 5px; font-size: 0.75rem; font-weight: 600; }
-
-        /* ⌨️ Input Section */
         textarea { width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }
         .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .btn { border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; color: white; transition: 0.3s; }
         .btn-eat { background: var(--blue); } .btn-burn { background: var(--orange); }
-
-        /* 🧘 Meditation System */
         .meditate-section { border: 2px dashed #f06292; padding: 15px; border-radius: 20px; margin: 15px 0; display: flex; flex-direction: column; align-items: center; min-height: 80px; transition: 0.5s; }
         .breathing-circle { width: 65px; height: 65px; background: #f06292; border-radius: 50%; margin-bottom: 10px; display: none; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1.3rem; box-shadow: 0 0 25px rgba(240, 98, 146, 0.5); }
         .inhale { animation: inhaleAnim 4s forwards linear; } .hold { animation: holdAnim 7s forwards linear; } .exhale { animation: exhaleAnim 8s forwards linear; }
@@ -48,8 +35,6 @@
         @keyframes holdAnim { from { transform: scale(2); } to { transform: scale(2); } }
         @keyframes exhaleAnim { from { transform: scale(2); opacity: 1; } to { transform: scale(1); opacity: 0.5; } }
         .meditate-btn { background: #f06292; color: white; border: none; padding: 12px; border-radius: 15px; width: 100%; font-weight: 600; cursor: pointer; }
-
-        /* 🗓️ แถบรายการ (ย้ายตำแหน่งมาล่างสุด) */
         .log-container { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
         .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .log-header b { color: var(--blue); font-size: 0.9rem; }
@@ -61,8 +46,6 @@
         .cal-plus { color: #ff7675; }
         .cal-minus { color: #55efc4; }
         .btn-del { color: #fab1a0; cursor: pointer; text-align: right; font-weight: bold; width: 30px; font-size: 1.1rem; }
-
-        /* 📈 Chart & Profile */
         .chart-box { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); box-sizing: border-box; margin-bottom: 15px; }
         .profile-card { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; }
         .profile-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; width: 100%; }
@@ -119,8 +102,7 @@
             <b>🗓️ รายการวันนี้ (Net: <span id="netCal">0</span>)</b>
             <button class="btn-reset" onclick="resetDay()">เริ่มวันใหม่</button>
         </div>
-        <table class="log-table" id="logTable">
-            </table>
+        <table class="log-table" id="logTable"></table>
     </div>
 
     <div class="chart-box">
@@ -150,23 +132,21 @@
 
 <script>
     let logs = JSON.parse(localStorage.getItem('jp_logs') || '[]');
-    // เก็บประวัติน้ำหนักแยกไว้ทำกราฟ
     let weightHistory = JSON.parse(localStorage.getItem('jp_weightHistory') || '{}');
     let myChart;
     let myWeightChart;
 
     window.onload = () => {
+        // [แก้ไขจุดที่ 1] โหลดค่าร่างกายกลับมาแสดงใน Input ทุกครั้งที่เปิดแอป
         ['weight', 'height', 'sleep', 'apiKey'].forEach(id => {
             const savedValue = localStorage.getItem('jp_'+id);
             if(savedValue) document.getElementById(id).value = savedValue;
         });
 
-        // 2. ระบบรีเซ็ตข้อมูลรายการวันนี้อัตโนมัติ (แสดงเฉพาะวันปัจจุบัน)
         const lastOpen = localStorage.getItem('jp_lastOpenDate');
         const todayStr = new Date().toLocaleDateString();
         if(lastOpen !== todayStr) {
             localStorage.setItem('jp_lastOpenDate', todayStr);
-            // ไม่ได้ลบ logs ทั้งหมด (เพื่อเก็บไว้ทำกราฟ) แต่หน้าจอจะกรองแสดงแค่ของวันนี้ใน calculateEverything
         }
 
         initChart();
@@ -190,14 +170,16 @@
     }
 
     function saveBodyStats() {
+        // [แก้ไขจุดที่ 2] บันทึกข้อมูลร่างกายลง LocalStorage ให้ครบถ้วน
         const weightVal = document.getElementById('weight').value;
+        const heightVal = document.getElementById('height').value;
+        const sleepVal = document.getElementById('sleep').value;
         const today = new Date().toLocaleDateString();
         
         localStorage.setItem('jp_weight', weightVal);
-        localStorage.setItem('jp_height', document.getElementById('height').value);
-        localStorage.setItem('jp_sleep', document.getElementById('sleep').value);
+        localStorage.setItem('jp_height', heightVal);
+        localStorage.setItem('jp_sleep', sleepVal);
         
-        // บันทึกน้ำหนักลงประวัติสำหรับกราฟ
         if(weightVal) {
             weightHistory[today] = parseFloat(weightVal);
             localStorage.setItem('jp_weightHistory', JSON.stringify(weightHistory));
@@ -305,8 +287,6 @@
             data: { labels: [], datasets: [{ label: 'Net Cal', data: [], borderColor: '#ff78cb', backgroundColor: 'rgba(255,120,203,0.1)', fill: true, tension: 0.4 }] },
             options: { plugins: { legend: { display: false } } }
         });
-
-        // สร้างกราฟน้ำหนัก
         const ctxW = document.getElementById('weightChart').getContext('2d');
         myWeightChart = new Chart(ctxW, {
             type: 'line',
@@ -317,15 +297,11 @@
 
     function updateChart() {
         const last7 = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - i); return d.toLocaleDateString(); }).reverse();
-        
-        // อัปเดตกราฟแคลอรี่
         const calData = last7.map(date => logs.filter(l => l.date === date).reduce((s, l) => s + (l.type==='eat'?l.cal:-l.cal), 0));
         myChart.data.labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
         myChart.data.datasets[0].data = calData;
         myChart.update();
-
-        // อัปเดตกราฟน้ำหนัก
-        const weightData = last7.map(date => weightHistory[date] || null); // ถ้าวันไหนไม่บันทึกจะเป็น null
+        const weightData = last7.map(date => weightHistory[date] || null);
         myWeightChart.data.labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
         myWeightChart.data.datasets[0].data = weightData;
         myWeightChart.update();
