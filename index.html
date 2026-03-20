@@ -12,66 +12,67 @@
         :root { --pink: #ff78cb; --blue: #74b9ff; --orange: #ff9f43; --dark: #2d3436; --bg: #f7f9fc; --carb: #fab1a0; --pro: #55efc4; --fat: #ffeaa7; --light-pink: #fff0f9; }
         body { font-family: 'Sarabun', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; color: var(--dark); overflow-x: hidden; }
         
+        /* 🐰 Coach Bubble */
         .coach-bubble { background: white; padding: 15px; border-radius: 20px; position: relative; margin-bottom: 15px; font-size: 0.85rem; border: 2px solid var(--pink); border-left: 10px solid var(--pink); box-shadow: 0 8px 15px rgba(255,120,203,0.1); width: 100%; max-width: 480px; box-sizing: border-box; text-align: left; }
         .coach-bubble::before { content: '🐰 bunnypao (ปากแจ๋ว):'; font-weight: 600; color: var(--pink); display: block; margin-bottom: 3px; }
 
+        /* 📊 Dashboard Grid */
         .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 480px; margin-bottom: 15px; }
         .sum-card { background: white; padding: 12px; border-radius: 18px; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; }
         .sum-card span { font-size: 0.7rem; color: #95a5a6; }
         .sum-card b { font-size: 1.1rem; }
 
+        /* 📝 Report Box */
         .report-box { background: white; padding: 15px; border-radius: 20px; border-left: 5px solid var(--pink); width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; text-align: left; font-size: 0.85rem; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
-        .report-box b { color: var(--pink); display: flex; align-items: center; gap: 5px; }
 
         .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 480px; text-align: center; margin-bottom: 15px; box-sizing: border-box; }
         
+        /* 🍯 Character & Tummy Logic */
         .top-analysis { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; margin-bottom: 15px; background: #fffcfd; padding: 12px; border-radius: 20px; border: 1px solid #ffeef8; align-items: center; }
-        .character-container { position: relative; width: 100px; height: 130px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: center; overflow: visible; }
-        .cute-character { position: relative; width: 100%; height: auto; z-index: 2; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
-        
-        .tummy-layer { 
-            position: absolute; bottom: 25px; width: 80px; height: 70px; background: rgba(255, 255, 255, 0.85); 
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; z-index: 1; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: inset 0 -5px 15px rgba(0,0,0,0.05); display: none; 
-        }
-
+        .character-container { position: relative; width: 120px; height: 150px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: center; overflow: visible; }
+        .cute-character { position: relative; width: 100%; height: auto; z-index: 2; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); cursor: pointer; }
+        .tummy-layer { position: absolute; bottom: 35px; width: 85px; height: 75px; background: rgba(255, 255, 255, 0.9); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; z-index: 1; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: inset 0 -5px 15px rgba(0,0,0,0.05); display: none; }
         .n-badge { display: flex; justify-content: space-between; padding: 4px 10px; border-radius: 8px; margin-bottom: 5px; font-size: 0.75rem; font-weight: 600; }
 
+        /* ⌨️ Input Section */
         textarea { width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }
         .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .btn { border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; color: white; transition: 0.3s; }
         .btn-eat { background: var(--blue); } .btn-burn { background: var(--orange); }
 
-        /* 🌸 ระบบฝึกสมาธิใหม่ */
+        /* 🧘 Meditation System */
         .meditate-section { border: 2px dashed #f06292; padding: 15px; border-radius: 20px; margin: 15px 0; display: flex; flex-direction: column; align-items: center; min-height: 80px; transition: 0.5s; }
-        .breathing-circle { 
-            width: 60px; height: 60px; background: #f06292; border-radius: 50%; margin-bottom: 10px; 
-            display: none; /* ซ่อนไว้ก่อนกด */
-            align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1.2rem;
-            box-shadow: 0 0 20px rgba(240, 98, 146, 0.4);
-        }
-        /* Animation สำหรับหายใจ */
-        .inhale { animation: inhaleAnim 4s forwards linear; }
-        .hold { animation: holdAnim 7s forwards linear; }
-        .exhale { animation: exhaleAnim 8s forwards linear; }
-
-        @keyframes inhaleAnim { from { transform: scale(1); opacity: 0.4; } to { transform: scale(1.8); opacity: 1; } }
-        @keyframes holdAnim { from { transform: scale(1.8); } to { transform: scale(1.8); } }
-        @keyframes exhaleAnim { from { transform: scale(1.8); opacity: 1; } to { transform: scale(1); opacity: 0.4; } }
-
+        .breathing-circle { width: 65px; height: 65px; background: #f06292; border-radius: 50%; margin-bottom: 10px; display: none; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 1.3rem; box-shadow: 0 0 25px rgba(240, 98, 146, 0.5); }
+        .inhale { animation: inhaleAnim 4s forwards linear; } .hold { animation: holdAnim 7s forwards linear; } .exhale { animation: exhaleAnim 8s forwards linear; }
+        @keyframes inhaleAnim { from { transform: scale(1); opacity: 0.5; } to { transform: scale(2); opacity: 1; } }
+        @keyframes holdAnim { from { transform: scale(2); } to { transform: scale(2); } }
+        @keyframes exhaleAnim { from { transform: scale(2); opacity: 1; } to { transform: scale(1); opacity: 0.5; } }
         .meditate-btn { background: #f06292; color: white; border: none; padding: 12px; border-radius: 15px; width: 100%; font-weight: 600; cursor: pointer; }
 
+        /* 🗓️ แถบรายการ (ย้ายตำแหน่งมาล่างสุด) */
+        .log-container { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+        .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .log-header b { color: var(--blue); font-size: 0.9rem; }
+        .btn-reset { background: #f5f5f5; border: none; padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; color: #888; }
+        .log-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .log-table tr { border-bottom: 1px solid #f9f9f9; }
+        .log-table td { padding: 10px 0; }
+        .log-cal { text-align: center; font-weight: 600; width: 70px; }
+        .cal-plus { color: #ff7675; }
+        .cal-minus { color: #55efc4; }
+        .btn-del { color: #fab1a0; cursor: pointer; text-align: right; font-weight: bold; width: 30px; font-size: 1.1rem; }
+
+        /* 📈 Chart & Profile */
+        .chart-box { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); box-sizing: border-box; margin-bottom: 15px; }
         .profile-card { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; }
         .profile-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; width: 100%; }
         .profile-input { display: flex; flex-direction: column; gap: 5px; font-size: 0.7rem; color: #95a5a6; }
-        .profile-input input { padding: 8px; border-radius: 10px; border: 1px solid #eee; text-align: center; width: 100%; box-sizing: border-box; }
-        
-        .chart-box { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); box-sizing: border-box; margin-bottom: 15px; }
+        .profile-input input { padding: 8px; border-radius: 10px; border: 1px solid #eee; text-align: center; width: 100%; box-sizing: border-box; outline: none; }
     </style>
 </head>
 <body>
 
-    <div class="coach-bubble" id="coachSpeech">สวัสดี คนเก่งของบันนี่เป่า 🐰🌸</div>
+    <div class="coach-bubble" id="coachSpeech">สวัสดีค่ะ! บันนี่เป่ารอสับพุงคุณอยู่นะคะ 🐰🌸</div>
 
     <div class="summary-grid">
         <div class="sum-card" style="border-bottom: 4px solid var(--blue);"><span>🍔 ทานไป</span><b id="dashEat">0</b> kcal</div>
@@ -82,14 +83,14 @@
 
     <div class="report-box" id="reportBox">
         <b>📊 bunnypao Report</b>
-        <span id="reportText">วิเคราะห์: กรอกข้อมูลเพื่อดูผลลัพธ์นะคะ</span>
+        <span id="reportText">วิเคราะห์: กรอกข้อมูลเพื่อเริ่มการดูแลนะคะ</span>
     </div>
 
     <div class="card">
         <div class="top-analysis">
             <div class="character-container">
                 <div id="tummy" class="tummy-layer"></div>
-                <img src="character.png" alt="Puppy Rabbit" class="cute-character">
+                <img src="character.png" alt="Bunny Character" class="cute-character" onclick="alert('จิ้มพุงเค้าทำไม! เดี๋ยวแม่ตีตายเลย 🐰💢')">
             </div>
             <div class="nutrient-stats">
                 <div style="font-weight:600; color:var(--pink); margin-bottom:8px;">สัดส่วนวันนี้ (กรัม)</div>
@@ -108,9 +109,18 @@
 
         <div class="meditate-section" id="meditateSection">
             <div id="breathCircle" class="breathing-circle"></div>
-            <p id="breathText" style="font-size:0.75rem; color:#f06292; margin: 0 0 10px 0;">พักหายใจกับ bunnypao นะคะ 🌸</p>
+            <p id="breathText" style="font-size:0.75rem; color:#f06292; margin: 0 0 10px 0;">หายใจไปกับบันนี่เป่า 🌸</p>
             <button class="meditate-btn" id="startMedBtn" onclick="startBreathing()">เริ่มฝึกสมาธิ (4-7-8)</button>
         </div>
+    </div>
+
+    <div class="log-container">
+        <div class="log-header">
+            <b>🗓️ รายการวันนี้ (Net: <span id="netCal">0</span>)</b>
+            <button class="btn-reset" onclick="resetDay()">เริ่มวันใหม่</button>
+        </div>
+        <table class="log-table" id="logTable">
+            </table>
     </div>
 
     <div class="chart-box">
@@ -121,9 +131,9 @@
     <div class="profile-card">
         <div style="font-size:0.85rem; font-weight:600; color:var(--blue);">⚙️ ข้อมูลร่างกาย (bunnypao Profile)</div>
         <div class="profile-grid">
-            <div class="profile-input"><label>น้ำหนัก</label><input type="number" id="weight"></div>
-            <div class="profile-input"><label>ส่วนสูง</label><input type="number" id="height"></div>
-            <div class="profile-input"><label>การนอน</label><input type="number" id="sleep"></div>
+            <div class="profile-input"><label>น้ำหนัก</label><input type="number" id="weight" placeholder="kg"></div>
+            <div class="profile-input"><label>ส่วนสูง</label><input type="number" id="height" placeholder="cm"></div>
+            <div class="profile-input"><label>การนอน</label><input type="number" id="sleep" placeholder="ชม."></div>
         </div>
         <div style="margin-top:15px;" class="profile-input">
             <label>🔑 Gemini API Key</label>
@@ -139,52 +149,25 @@
 
     window.onload = () => {
         ['weight', 'height', 'sleep', 'apiKey'].forEach(id => {
-            if(localStorage.getItem('jp_'+id)) document.getElementById(id).value = localStorage.getItem('jp_'+id);
+            const savedValue = localStorage.getItem('jp_'+id);
+            if(savedValue) document.getElementById(id).value = savedValue;
         });
         initChart();
         calculateEverything();
     };
 
-    // 🧘 ระบบหายใจ 4-7-8 พร้อมจับเวลา
     function startBreathing() {
         const circle = document.getElementById('breathCircle');
         const text = document.getElementById('breathText');
         const btn = document.getElementById('startMedBtn');
-        
-        btn.style.display = 'none';
-        circle.style.display = 'flex';
-        
-        let step = 0; // 0:Inhale, 1:Hold, 2:Exhale
-        const routine = [
-            { label: "หายใจเข้า...", class: "inhale", time: 4 },
-            { label: "กลั้นหายใจ...", class: "hold", time: 7 },
-            { label: "หายใจออก...", class: "exhale", time: 8 }
-        ];
-
+        btn.style.display = 'none'; circle.style.display = 'flex';
+        let step = 0; 
+        const routine = [{ label: "หายใจเข้า...", class: "inhale", time: 4 }, { label: "กลั้นหายใจ...", class: "hold", time: 7 }, { label: "หายใจออก...", class: "exhale", time: 8 }];
         function runStep() {
-            if (step >= routine.length) {
-                circle.style.display = 'none';
-                btn.style.display = 'block';
-                text.innerText = "เก่งมากค่ะ! รู้สึกผ่อนคลายขึ้นไหมคะ? 🌸";
-                return;
-            }
-
-            const current = routine[step];
-            circle.className = "breathing-circle " + current.class;
-            text.innerText = current.label;
-            
-            let timeLeft = current.time;
-            circle.innerText = timeLeft;
-
-            const timer = setInterval(() => {
-                timeLeft--;
-                circle.innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    step++;
-                    runStep();
-                }
-            }, 1000);
+            if (step >= routine.length) { circle.style.display = 'none'; btn.style.display = 'block'; text.innerText = "รู้สึกเบาขึ้นไหมคะ? 🌸"; return; }
+            const current = routine[step]; circle.className = "breathing-circle " + current.class; text.innerText = current.label;
+            let timeLeft = current.time; circle.innerText = timeLeft;
+            const timer = setInterval(() => { timeLeft--; circle.innerText = timeLeft; if (timeLeft <= 0) { clearInterval(timer); step++; runStep(); } }, 1000);
         }
         runStep();
     }
@@ -194,13 +177,11 @@
         localStorage.setItem('jp_height', document.getElementById('height').value);
         localStorage.setItem('jp_sleep', document.getElementById('sleep').value);
         calculateEverything();
-        alert("บันทึกสรีระและอัปเดตพุงเรียบร้อยแล้วค่ะ! 🐰✨");
+        alert("อัปเดตเรียบร้อย! 🐰✨");
     }
 
     function saveApiKey() {
-        const key = document.getElementById('apiKey').value;
-        if(!key) return alert("กรุณากรอก API Key ก่อนนะคะ");
-        localStorage.setItem('jp_apiKey', key);
+        localStorage.setItem('jp_apiKey', document.getElementById('apiKey').value);
         alert("เชื่อมต่อ AI เรียบร้อย!");
     }
 
@@ -211,7 +192,9 @@
         const goal = Math.round(bmr * 1.2);
         
         const today = new Date().toLocaleDateString();
-        const totals = logs.filter(l => l.date === today).reduce((acc, curr) => {
+        const todayLogs = logs.filter(l => l.date === today);
+        
+        const totals = todayLogs.reduce((acc, curr) => {
             if(curr.type === 'eat') { acc.eat += curr.cal; acc.carb += curr.carb; acc.pro += curr.pro; acc.fat += curr.fat; }
             else { acc.burn += Math.abs(curr.cal); }
             return acc;
@@ -221,44 +204,71 @@
         document.getElementById('dashEat').innerText = totals.eat;
         document.getElementById('dashBurn').innerText = totals.burn;
         document.getElementById('dashGoal').innerText = goal;
+        document.getElementById('netCal').innerText = net;
         
         const bmi = (w / ((h/100)**2)).toFixed(1);
         document.getElementById('bmiDisplay').innerText = bmi;
         
         const tummy = document.getElementById('tummy');
         tummy.style.display = 'block';
-        let tummyScale = Math.min(1.6, Math.max(0.7, bmi / 23)); 
+        let tummyScale = Math.min(2.3, Math.max(0.7, 0.8 + (Math.max(0, bmi - 21) * 0.15))); 
         tummy.style.transform = `scale(${tummyScale})`;
-        tummy.style.opacity = Math.min(0.9, (bmi / 25));
         
         document.getElementById('dashStatus').innerText = bmi < 18.5 ? "บางกรอบ 🌬️" : bmi < 23 ? "หุ่นดีมาก ✨" : bmi < 25 ? "เริ่มมีพุง 🍺" : "พุงพลุ้ย 🛑";
-        document.getElementById('reportText').innerText = `วิเคราะห์: เหลือโควตาอีก ${goal - net} kcal ทานมื้อถัดไปเบาๆ นะคะ`;
+        document.getElementById('reportText').innerText = `เหลือโควตาอีก ${goal - net} kcal นะคะ กินพอดีๆ นะ!`;
         document.getElementById('sumCarb').innerText = totals.carb;
         document.getElementById('sumPro').innerText = totals.pro;
         document.getElementById('sumFat').innerText = totals.fat;
+        
+        const table = document.getElementById('logTable');
+        table.innerHTML = todayLogs.map((l, i) => `
+            <tr>
+                <td>${l.type === 'eat' ? '🍔' : '🔥'} ${l.name}</td>
+                <td class="log-cal ${l.type === 'eat' ? 'cal-plus' : 'cal-minus'}">${l.type === 'eat' ? '+' : '-'}${l.cal}</td>
+                <td class="btn-del" onclick="deleteLog(${logs.indexOf(l)})">×</td>
+            </tr>
+        `).join('') || '<tr><td colspan="3" style="text-align:center; color:#ccc; padding:20px;">ยังไม่มีรายการวันนี้</td></tr>';
+
         updateChart();
     }
 
     async function processEntry(type) {
         const key = document.getElementById('apiKey').value;
         const input = document.getElementById('mainInput').value;
-        if(!key || !input) return alert("ใส่คีย์และข้อมูลก่อนนะจ๊ะ");
-
-        document.getElementById('coachSpeech').innerText = "รอแป๊บน้า... 🐰🔍";
+        if(!key || !input) return alert("กรุณาใส่ข้อมูลและ API Key ค่ะ");
+        document.getElementById('coachSpeech').innerText = "ขอนึกแป๊บนะ... 🐰🔍";
         try {
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: `คุณคือ bunnypao ${type==='eat'?'วิเคราะห์ของกิน':'วิเคราะห์การเบิร์น'} "${input}" ตอบ JSON: {"cal": 100, "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทายปากแจ๋วที่เปลี่ยนไปตามสิ่งที่ผู้ใช้กินหรือทำ"}` }] }] })
+                body: JSON.stringify({ contents: [{ parts: [{ text: `คุณคือ bunnypao วิเคราะห์ "${input}" ตอบ JSON: {"cal": 100, "name": "ชื่อสั้นๆ", "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทายปากแจ๋ว"}` }] }] })
             });
             const data = await res.json();
             const result = JSON.parse(data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim());
-            logs.push({ date: new Date().toLocaleDateString(), type: type, cal: result.cal, carb: result.carb, pro: result.pro, fat: result.fat });
+            
+            logs.push({ date: new Date().toLocaleDateString(), type: type, name: result.name, cal: result.cal, carb: result.carb, pro: result.pro, fat: result.fat });
             localStorage.setItem('jp_logs', JSON.stringify(logs));
             document.getElementById('coachSpeech').innerText = result.msg;
             document.getElementById('mainInput').value = '';
             calculateEverything();
         } catch (e) { alert("Error!"); }
+    }
+
+    function deleteLog(index) {
+        if(confirm("ลบรายการนี้ใช่ไหมคะ?")) {
+            logs.splice(index, 1);
+            localStorage.setItem('jp_logs', JSON.stringify(logs));
+            calculateEverything();
+        }
+    }
+
+    function resetDay() {
+        if(confirm("ต้องการล้างรายการของวันนี้ทั้งหมดใช่ไหมคะ?")) {
+            const today = new Date().toLocaleDateString();
+            logs = logs.filter(l => l.date !== today);
+            localStorage.setItem('jp_logs', JSON.stringify(logs));
+            calculateEverything();
+        }
     }
 
     function initChart() {
@@ -271,9 +281,7 @@
     }
 
     function updateChart() {
-        const last7 = [...Array(7)].map((_, i) => {
-            const d = new Date(); d.setDate(d.getDate() - i); return d.toLocaleDateString();
-        }).reverse();
+        const last7 = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - i); return d.toLocaleDateString(); }).reverse();
         const data = last7.map(date => logs.filter(l => l.date === date).reduce((s, l) => s + (l.type==='eat'?l.cal:-l.cal), 0));
         myChart.data.labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
         myChart.data.datasets[0].data = data;
