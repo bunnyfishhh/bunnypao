@@ -3,89 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>bunnypao 🐰⚡ Super Full Option</title>
+    <title>bunnypao 🐰⚡ Puppy Rabbit Edition</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { --pink: #ff78cb; --blue: #74b9ff; --orange: #ff9f43; --dark: #2d3436; --bg: #f7f9fc; --carb: #fab1a0; --pro: #55efc4; --fat: #ffeaa7; --light-pink: #fff0f9; }
         body { font-family: 'Sarabun', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; color: var(--dark); overflow-x: hidden; }
         
-        /* Coach Bubble */
-        .coach-bubble { background: white; padding: 15px; border-radius: 20px; position: relative; margin-bottom: 15px; font-size: 0.85rem; border: 2px solid var(--pink); border-left: 10px solid var(--pink); box-shadow: 0 8px 15px rgba(255,120,203,0.1); width: 100%; max-width: 480px; box-sizing: border-box; }
+        /* 1. Coach Bubble */
+        .coach-bubble { background: white; padding: 15px; border-radius: 20px; position: relative; margin-bottom: 15px; font-size: 0.85rem; border: 2px solid var(--pink); border-left: 10px solid var(--pink); box-shadow: 0 8px 15px rgba(255,120,203,0.1); width: 100%; max-width: 480px; box-sizing: border-box; text-align: left; }
         .coach-bubble::before { content: '🐰 bunnypao (ปากแจ๋ว):'; font-weight: 600; color: var(--pink); display: block; margin-bottom: 3px; }
 
-        /* Summary Dashboard */
+        /* 2. Dashboard สีพาสเทล 4 ช่อง */
         .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 480px; margin-bottom: 15px; }
-        .sum-card { background: white; padding: 12px; border-radius: 18px; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border-bottom: 4px solid #eee; }
-        .sum-card b { font-size: 1.1rem; color: var(--dark); }
-        .sum-card span { font-size: 0.7rem; color: #95a5a6; display: block; }
+        .sum-card { background: white; padding: 12px; border-radius: 18px; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; }
+        .sum-card span { font-size: 0.7rem; color: #95a5a6; }
+        .sum-card b { font-size: 1.1rem; }
 
-        /* Report Box */
-        .report-box { background: var(--light-pink); padding: 15px; border-radius: 20px; border-left: 5px solid var(--pink); width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; text-align: left; font-size: 0.85rem; }
-        
+        /* 3. bunnypao Report */
+        .report-box { background: white; padding: 15px; border-radius: 20px; border-left: 5px solid var(--pink); width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; text-align: left; font-size: 0.85rem; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+        .report-box b { color: var(--pink); display: flex; align-items: center; gap: 5px; }
+
         .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 480px; text-align: center; margin-bottom: 15px; box-sizing: border-box; }
         
-        /* Analysis Section */
-        .top-analysis { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; margin-bottom: 15px; background: #fffcfd; padding: 12px; border-radius: 20px; border: 1px solid #ffeef8; }
-        .mockup-svg { width: 70px; height: 120px; }
+        /* 4. ส่วนวิเคราะห์ใหม่ (Cute Character + Nutrients) */
+        .top-analysis { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; margin-bottom: 15px; background: #fffcfd; padding: 12px; border-radius: 20px; border: 1px solid #ffeef8; align-items: center; }
+        
+        /* Character Image Container */
+        .character-container { position: relative; width: 100px; height: 130px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: center; }
+        .cute-character { width: 100%; height: auto; transition: all 0.5s ease-in-out; transform-origin: bottom center; /* ขยายจากฐาน */ }
+        
+        /* BMI Status Ring */
+        .bmi-ring { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 10px; border-radius: 5px; background: #eee; transition: background 0.5s; }
+
         .n-badge { display: flex; justify-content: space-between; padding: 4px 10px; border-radius: 8px; margin-bottom: 5px; font-size: 0.75rem; font-weight: 600; }
 
-        /* Progress Bar */
-        .progress-container { text-align: left; margin-bottom: 15px; }
-        .progress-bar { background: #eee; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 5px; }
-        .progress-fill { height: 100%; background: var(--blue); width: 0%; transition: 0.5s; }
-
-        /* Meditation Button */
-        .meditate-btn { background: #f06292; color: white; border: none; padding: 12px; border-radius: 15px; width: 100%; font-weight: 600; cursor: pointer; margin-top: 10px; font-size: 0.9rem; }
-
+        /* 5. Input & Meditation */
         textarea { width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .btn { border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; color: white; }
-        .btn-eat { background: var(--blue); } .btn-burn { background: var(--orange); } .btn-pink { background: var(--pink); }
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn { border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; color: white; transition: 0.3s; }
+        .btn-eat { background: var(--blue); } .btn-burn { background: var(--orange); }
+        .meditate-section { border: 2px dashed #f06292; padding: 15px; border-radius: 20px; margin: 15px 0; }
+        .meditate-btn { background: #f06292; color: white; border: none; padding: 12px; border-radius: 15px; width: 100%; font-weight: 600; cursor: pointer; }
 
+        /* 6. Profile Section */
+        .profile-card { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; }
+        .profile-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .profile-input { display: flex; flex-direction: column; gap: 5px; font-size: 0.7rem; color: #95a5a6; }
+        .profile-input input { padding: 8px; border-radius: 10px; border: 1px solid #eee; text-align: center; outline: none; }
+        
         .chart-box { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); box-sizing: border-box; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="coach-bubble" id="coachSpeech">ทุกอย่างกลับมาครบแล้วค่ะ! ทั้งสรุปผลและที่ฝึกสมาธิ 🐰💖</div>
+    <div class="coach-bubble" id="coachSpeech">สวัสดีค่ะ! รอบนี้จินเป่าเนรมิตน้องกระต่ายนุ่มฟูมาแทนหุ่นแข็งๆ แล้วนะ น่ารักไหมคะ? 🐰💖</div>
 
     <div class="summary-grid">
-        <div class="sum-card" style="border-color: var(--blue);"><span>🍔 ทานไป</span><b id="dashEat">0</b> kcal</div>
-        <div class="sum-card" style="border-color: var(--orange);"><span>🔥 เบิร์น</span><b id="dashBurn">0</b> kcal</div>
-        <div class="sum-card" style="border-color: #a29bfe;"><span>🎯 เป้าหมาย</span><b id="dashGoal">2000</b> kcal</div>
-        <div class="sum-card" style="border-color: #55efc4;"><span>⚖️ สภาพ</span><b id="dashStatus">ยังสวยอยู่มาก!</b></div>
+        <div class="sum-card" style="border-bottom: 4px solid var(--blue);"><span>🍔 ทานไป</span><b id="dashEat">0</b> kcal</div>
+        <div class="sum-card" style="border-bottom: 4px solid var(--orange);"><span>🔥 เบิร์น</span><b id="dashBurn">0</b> kcal</div>
+        <div class="sum-card" style="border-bottom: 4px solid #a29bfe;"><span>🎯 เป้าหมาย</span><b id="dashGoal">0</b> kcal</div>
+        <div class="sum-card" style="border-bottom: 4px solid #55efc4;"><span>⚖️ สภาพ</span><b id="dashStatus">รอข้อมูล</b></div>
     </div>
 
     <div class="report-box" id="reportBox">
-        <b>📊 bunnypao Report</b><br>
+        <b>📊 bunnypao Report</b>
         <span id="reportText">วิเคราะห์: กรอกข้อมูลเพื่อดูผลลัพธ์นะคะ</span>
     </div>
 
     <div class="card">
         <div class="top-analysis">
-            <div style="text-align:center;">
-                <svg id="humanMockup" class="mockup-svg" viewBox="0 0 100 200">
-                    <circle cx="50" cy="25" r="15" fill="#FFE0BD" stroke="#333"/>
-                    <path id="bodyPath" d="M35,40 Q50,40 65,40 L60,120 Q50,120 40,120 Z" fill="#FFE0BD" stroke="#333"/>
-                    <line x1="42" y1="120" x2="35" y2="190" stroke="#333" stroke-width="3"/>
-                    <line x1="58" y1="120" x2="65" y2="190" stroke="#333" stroke-width="3"/>
-                </svg>
-                <div style="font-size:0.8rem; font-weight:600;">BMI: <span id="bmiDisplay">0.0</span></div>
+            <div class="character-container">
+                <img src="favicon.png" alt="Puppy Rabbit" id="cuteCharacter" class="cute-character">
+                <div class="bmi-ring" id="bmiRing"></div>
             </div>
             <div class="nutrient-stats">
+                <div style="font-weight:600; color:var(--pink); margin-bottom:8px;">สัดส่วนวันนี้ (กรัม)</div>
                 <div class="n-badge" style="background:var(--carb);">🍞 แป้ง: <span id="sumCarb">0</span>g</div>
                 <div class="n-badge" style="background:var(--pro);">🍗 โปรตีน: <span id="sumPro">0</span>g</div>
                 <div class="n-badge" style="background:var(--fat);">🥑 ไขมัน: <span id="sumFat">0</span>g</div>
+                <div style="margin-top:10px; font-size:0.9rem;">BMI: <b id="bmiDisplay">0.0</b></div>
             </div>
-        </div>
-
-        <div class="progress-container">
-            <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
-                <span>โควตาสุทธิวันนี้ (Net)</span>
-                <b id="netPerc">0%</b>
-            </div>
-            <div class="progress-bar"><div id="netFill" class="progress-fill"></div></div>
         </div>
 
         <textarea id="mainInput" rows="2" placeholder="วันนี้ทานอะไร หรือไปเบิร์นที่ไหนมา..."></textarea>
@@ -94,9 +94,10 @@
             <button class="btn btn-burn" onclick="processEntry('burn')">บันทึกเบิร์น 🔥</button>
         </div>
 
-        <button class="meditate-btn" onclick="alert('หายใจเข้า... 4... หายใจห้าม... 7... หายใจออก... 8...')">
-            พักหายใจกับ bunnypao นะคะ 🌸 (4-7-8)
-        </button>
+        <div class="meditate-section">
+            <p style="font-size:0.75rem; color:#f06292; margin-top:0;">พักหายใจกับ bunnypao นะคะ 🌸</p>
+            <button class="meditate-btn" onclick="alert('หายใจเข้า 4... หายใจห้าม 7... หายใจออก 8...')">ฝึกสมาธิ (4-7-8)</button>
+        </div>
     </div>
 
     <div class="chart-box">
@@ -104,18 +105,43 @@
         <canvas id="weeklyChart" height="150"></canvas>
     </div>
 
+    <div class="profile-card">
+        <div style="font-size:0.85rem; font-weight:600; color:var(--blue); display:flex; align-items:center; gap:5px;">⚙️ ข้อมูลร่างกาย (bunnypao Profile)</div>
+        <div class="profile-grid">
+            <div class="profile-input"><label>น้ำหนัก</label><input type="number" id="weight"></div>
+            <div class="profile-input"><label>ส่วนสูง</label><input type="number" id="height"></div>
+            <div class="profile-input"><label>การนอน</label><input type="number" id="sleep"></div>
+        </div>
+        <div style="margin-top:15px;" class="profile-input">
+            <label>🔑 Gemini API Key</label>
+            <input type="password" id="apiKey" style="text-align:left;">
+        </div>
+        <button class="btn" style="background:var(--blue); width:100%; margin-top:15px;" onclick="saveProfile()">บันทึกร่างกาย & อัปเดตหุ่น 💾</button>
+    </div>
+
 <script>
     let logs = JSON.parse(localStorage.getItem('jp_logs') || '[]');
     let myChart;
 
     window.onload = () => {
+        ['weight', 'height', 'sleep', 'apiKey'].forEach(id => {
+            if(localStorage.getItem('jp_'+id)) document.getElementById(id).value = localStorage.getItem('jp_'+id);
+        });
         initChart();
         calculateEverything();
     };
 
+    function saveProfile() {
+        ['weight', 'height', 'sleep', 'apiKey'].forEach(id => {
+            localStorage.setItem('jp_'+id, document.getElementById(id).value);
+        });
+        calculateEverything();
+        alert("บันทึกข้อมูลและอัปเดตตัวการ์ตูนเรียบร้อยแล้วค่ะ! 🐰✨");
+    }
+
     function calculateEverything() {
-        const w = parseFloat(localStorage.getItem('jp_weight')) || 53;
-        const h = parseFloat(localStorage.getItem('jp_height')) || 156;
+        const w = parseFloat(document.getElementById('weight').value) || 53;
+        const h = parseFloat(document.getElementById('height').value) || 156;
         const bmr = (10 * w) + (6.25 * h) - (5 * 29) - 161;
         const goal = Math.round(bmr * 1.2);
         
@@ -128,43 +154,51 @@
         }, { eat: 0, burn: 0, carb: 0, pro: 0, fat: 0 });
 
         const net = totals.eat - totals.burn;
-        const perc = Math.min(100, Math.round((net / goal) * 100));
-
-        // Update Dashboard
         document.getElementById('dashEat').innerText = totals.eat;
         document.getElementById('dashBurn').innerText = totals.burn;
         document.getElementById('dashGoal').innerText = goal;
-        document.getElementById('dashStatus').innerText = perc < 90 ? "ยังสวยอยู่มาก! ✨" : "เริ่มตึงแล้วนะ 🛑";
         
-        // Update Report
-        document.getElementById('reportText').innerText = `วิเคราะห์: เหลือโควตาอีก ${goal - net} kcal ทานมื้อถัดไปเบาๆ นะคะ`;
-        
-        // Update BMI & Mockup
+        // Update BMI & Cute Character Size
         const bmi = (w / ((h/100)**2)).toFixed(1);
         document.getElementById('bmiDisplay').innerText = bmi;
-        let width = Math.min(80, Math.max(35, bmi * 2.1));
-        document.getElementById('bodyPath').setAttribute('d', `M${50-width/2},40 Q50,40 ${50+width/2},40 L${50+width/2.2},120 Q50,120 ${50-width/2.2},120 Z`);
+        
+        // 🐰🐰 โค้ดปรับขนาดน้องกระต่าย 🐰🐰
+        const character = document.getElementById('cuteCharacter');
+        const bmiRing = document.getElementById('bmiRing');
+        
+        // ปรับความกว้าง (Width) ตาม BMI: 70% (ผอม) ถึง 120% (ท้วม)
+        let widthScale = Math.min(1.2, Math.max(0.7, bmi / 23)); 
+        character.style.transform = `scale(${widthScale})`;
+        
+        // ปรับสีแถบสถานะตาม BMI
+        let status = "";
+        let ringColor = "#eee";
+        if (bmi < 18.5) { status = "บางกรอบ 🌬️"; ringColor = "#E0F7FA"; }
+        else if (bmi < 23) { status = "หุ่นดีมาก ✨"; ringColor = "#E8F5E9"; }
+        else if (bmi < 25) { status = "มีน้ำมีนวล 🍺"; ringColor = "#FFF3E0"; }
+        else { status = "พุงเริ่มมา 🛑"; ringColor = "#FFEBEE"; }
+        
+        document.getElementById('dashStatus').innerText = status;
+        bmiRing.style.background = ringColor;
 
-        // Update Progress & Nutrients
-        document.getElementById('netPerc').innerText = perc + '%';
-        document.getElementById('netFill').style.width = perc + '%';
+        // Update Report, Progress, Nutrients
+        document.getElementById('reportText').innerText = `วิเคราะห์: เหลือโควตาอีก ${goal - net} kcal ทานมื้อถัดไปเบาๆ นะคะ`;
         document.getElementById('sumCarb').innerText = totals.carb;
         document.getElementById('sumPro').innerText = totals.pro;
         document.getElementById('sumFat').innerText = totals.fat;
-
         updateChart();
     }
 
     async function processEntry(type) {
-        const key = localStorage.getItem('jp_apiKey');
+        const key = document.getElementById('apiKey').value;
         const input = document.getElementById('mainInput').value;
-        if(!key || !input) return alert("กรุณาใส่ API Key และรายการก่อนนะคะ");
+        if(!key || !input) return alert("ใส่คีย์และข้อมูลก่อนนะจ๊ะ");
 
         try {
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: `วิเคราะห์ "${input}" ตอบ JSON: {"cal": 100, "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทาย"}` }] }] })
+                body: JSON.stringify({ contents: [{ parts: [{ text: `คุณคือ bunnypao ${type==='eat'?'วิเคราะห์ของกิน':'วิเคราะห์การเบิร์น'} "${input}" ตอบ JSON: {"cal": 100, "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทายปากแจ๋ว"}` }] }] })
             });
             const data = await res.json();
             const result = JSON.parse(data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim());
@@ -174,14 +208,14 @@
             document.getElementById('coachSpeech').innerText = result.msg;
             document.getElementById('mainInput').value = '';
             calculateEverything();
-        } catch (e) { alert("เกิดข้อผิดพลาด! ลองเช็ค API Key นะคะ"); }
+        } catch (e) { alert("Error! ลองเช็คเน็ตหรือคีย์นะคะ"); }
     }
 
     function initChart() {
         const ctx = document.getElementById('weeklyChart').getContext('2d');
         myChart = new Chart(ctx, {
             type: 'line',
-            data: { labels: [], datasets: [{ label: 'Net Cal', data: [], borderColor: '#ff78cb', tension: 0.4 }] },
+            data: { labels: [], datasets: [{ label: 'Net Cal', data: [], borderColor: '#ff78cb', backgroundColor: 'rgba(255,120,203,0.1)', fill: true, tension: 0.4 }] },
             options: { plugins: { legend: { display: false } } }
         });
     }
