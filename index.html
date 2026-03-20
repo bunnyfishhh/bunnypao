@@ -3,271 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>bunnypao 🐰⚡</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
-    
+    <title>bunnypao 🐰⚡ Nutrient Focus</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --pink: #ff78cb; --blue: #74b9ff; --orange: #ff9f43; --dark: #2d3436; --bg: #f7f9fc; }
-        body { font-family: 'Sarabun', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; color: var(--dark); overflow-x: hidden; }
+        :root { --pink: #ff78cb; --blue: #74b9ff; --orange: #ff9f43; --dark: #2d3436; --bg: #f7f9fc; --success: #2ecc71; --carb: #fab1a0; --pro: #55efc4; --fat: #ffeaa7; }
+        body { font-family: 'Sarabun', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; color: var(--dark); }
         
         .coach-bubble { background: white; padding: 15px; border-radius: 20px; position: relative; margin-bottom: 15px; font-size: 0.85rem; border: 2px solid var(--pink); border-left: 10px solid var(--pink); box-shadow: 0 8px 15px rgba(255,120,203,0.1); width: 100%; max-width: 480px; box-sizing: border-box; }
-        .coach-bubble::before { content: '🐰 bunnypao (ปากแจ๋ว):'; font-weight: 600; color: var(--pink); display: block; margin-bottom: 3px; }
-
         .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 480px; text-align: center; margin-bottom: 15px; box-sizing: border-box; }
         
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .status-item { background: #f0f7ff; padding: 10px; border-radius: 15px; font-size: 0.75rem; text-align: left; border-bottom: 3px solid var(--blue); }
-        .status-item.burn-box { background: #fff5eb; border-bottom-color: var(--orange); }
-
-        .analysis-box { background: #fffcfd; border: 1px solid #ffeef8; border-radius: 15px; padding: 12px; margin: 15px 0; text-align: left; font-size: 0.8rem; border-left: 5px solid var(--pink); }
-        .analysis-title { font-weight: 600; color: var(--pink); display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
-
-        .bar-container { margin: 10px 0; text-align: left; }
-        .bar-label { font-size: 0.7rem; font-weight: 600; color: #636e72; display: flex; justify-content: space-between; }
-        .bar-bg { background: #eee; height: 12px; border-radius: 6px; margin-top: 4px; overflow: hidden; }
-        .bar-fill { height: 100%; transition: 1s cubic-bezier(0.1, 0.7, 0.1, 1); width: 0%; }
-
-        textarea { width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .btn { border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: 0.2s; color: white; width: 100%; }
-        .btn-eat { background: var(--blue); }
-        .btn-burn { background: var(--orange); }
-        .btn-pink { background: var(--pink); }
-        .btn:active { transform: scale(0.95); }
+        /* Layout Grid */
+        .analysis-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; margin-bottom: 15px; align-items: center; }
+        .chart-container { position: relative; height: 160px; }
         
-        .log-section { width: 100%; max-width: 480px; background: white; border-radius: 20px; padding: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); box-sizing: border-box; margin-bottom: 15px; }
-        .log-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-        .log-table th { text-align: left; color: var(--blue); padding: 8px; border-bottom: 2px solid #f0f7ff; }
-        .log-table td { padding: 8px; border-bottom: 1px solid #f9f9f9; }
+        .nutrient-stats { text-align: left; font-size: 0.8rem; }
+        .n-item { display: flex; justify-content: space-between; margin-bottom: 5px; padding: 5px 10px; border-radius: 8px; }
+        .n-carb { background: var(--carb); } .n-pro { background: var(--pro); } .n-fat { background: var(--fat); }
 
-        .mindful-section { background: #fffcfd; border: 1px dashed var(--pink); padding: 15px; border-radius: 20px; margin-top: 15px; }
-        #breatheCircle { width: 35px; height: 35px; background: var(--pink); border-radius: 50%; margin: 15px auto; display: none; }
-        #breatheLabel { font-size: 0.8rem; color: var(--pink); font-weight: 600; margin-bottom: 8px; }
-
-        .settings-section { width: 100%; max-width: 480px; background: #fff; border-radius: 20px; padding: 15px; box-sizing: border-box; border: 1px solid #f0f0f0; }
-        .settings-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-        .input-box { display: flex; flex-direction: column; gap: 3px; }
-        .input-box label { font-size: 0.65rem; font-weight: 600; color: #636e72; text-align: center; }
-        .input-box input { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #eee; text-align: center; font-size: 0.8rem; outline: none; }
-        .api-input-container { grid-column: span 3; margin-top: 12px; border-top: 1px dashed #eee; padding-top: 10px; }
-
-        @keyframes breatheAnim { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(4); opacity: 1; } }
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .btn { border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; color: white; transition: 0.2s; }
+        .btn-eat { background: var(--blue); } .btn-burn { background: var(--orange); }
+        
+        textarea { width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-family: inherit; box-sizing: border-box; outline: none; }
+        .history-card { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; }
+        .log-table { width: 100%; font-size: 0.8rem; border-collapse: collapse; }
+        .log-table td { padding: 8px 0; border-bottom: 1px solid #eee; }
     </style>
 </head>
 <body>
 
-    <div class="coach-bubble" id="coachSpeech">bunnypao พร้อมสับพุงคุณแล้วค่ะ! 🐰⚡</div>
+    <div class="coach-bubble" id="coachSpeech">วันนี้สัดส่วนสารอาหารเป็นยังไงบ้างคะ? อย่าลืมกินโปรตีนให้ถึงนะ! 🐰💪</div>
 
     <div class="card">
-        <div class="status-grid">
-            <div class="status-item">🍔 ทานไป: <b id="sumCal">0</b> kcal</div>
-            <div class="status-item burn-box">🔥 เบิร์น: <b id="sumBurn">0</b> kcal</div>
-            <div class="status-item">🎯 เป้าหมาย: <b id="sumBudget">2000</b> kcal</div>
-            <div class="status-item">⚖️ สภาพ: <b id="weightStatus">รอกรอกข้อมูล</b></div>
+        <div class="analysis-grid">
+            <div class="chart-container">
+                <canvas id="nutrientChart"></canvas>
+            </div>
+            <div class="nutrient-stats">
+                <div style="font-weight:600; margin-bottom:8px; color:var(--pink);">สารอาหารวันนี้ (กรัม)</div>
+                <div class="n-item n-carb">🍞 แป้ง: <b id="sumCarb">0</b>g</div>
+                <div class="n-item n-pro">🍗 โปรตีน: <b id="sumPro">0</b>g</div>
+                <div class="n-item n-fat">🥑 ไขมัน: <b id="sumFat">0</b>g</div>
+            </div>
         </div>
 
-        <div class="analysis-box" id="analysisBox">
-            <div class="analysis-title">📊 bunnypao Report</div>
-            <div id="analysisText">กรอกข้อมูลร่างกายเพื่อเริ่มวิเคราะห์นะคะ...</div>
+        <div style="font-size: 0.75rem; color: #636e72; margin-bottom: 10px;">
+            พลังงานสุทธิ: <span id="netCal">0</span> / 2000 kcal
         </div>
 
-        <div class="bar-container">
-            <div class="bar-label"><span>โควตาสุทธิวันนี้ (Net)</span> <b id="calPercent">0%</b></div>
-            <div class="bar-bg"><div id="calBar" class="bar-fill" style="background: var(--blue);"></div></div>
-        </div>
-
-        <textarea id="mainInput" rows="2" placeholder="วันนี้ทานอะไร หรือไปเบิร์นที่ไหนมา เล่ามา..."></textarea>
+        <textarea id="mainInput" rows="2" placeholder="เช่น 'ข้าวเหนียวหมูปิ้ง 2 ไม้' หรือ 'วิ่ง 30 นาที'"></textarea>
         <div class="btn-group">
-            <button class="btn btn-eat" onclick="processEntry('eat')">บันทึกของกิน 🚀</button>
+            <button class="btn btn-eat" onclick="processEntry('eat')">บันทึกของกิน 🍔</button>
             <button class="btn btn-burn" onclick="processEntry('burn')">บันทึกเบิร์น 🔥</button>
         </div>
-
-        <div class="mindful-section">
-            <div id="breatheLabel">พักหายใจกับ bunnypao นะคะ 🌸</div>
-            <div id="breatheCircle"></div>
-            <button class="btn btn-pink" onclick="startBreathe()">ฝึกสมาธิ (4-7-8)</button>
-        </div>
     </div>
 
-    <div class="log-section">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <h5 style="margin:0; color: var(--blue);">🗓️ รายการวันนี้ (Net: <span id="netCalDisplay">0</span>)</h5>
-            <button onclick="resetDay()" style="font-size: 0.65rem; background: none; border: 1px solid #ccc; border-radius: 5px; padding: 2px 8px; color: #999;">เริ่มวันใหม่</button>
-        </div>
-        <table class="log-table">
-            <thead><tr><th>รายการ</th><th style="width: 70px;">แคลอรี่</th><th style="width: 30px;"></th></tr></thead>
-            <tbody id="mealLogBody"></tbody>
-        </table>
-    </div>
-
-    <div class="settings-section">
-        <div style="font-size: 0.8rem; font-weight: 600; color: var(--blue); margin-bottom: 10px; text-align: center;">⚙️ ข้อมูลร่างกาย (bunnypao Profile)</div>
-        <div class="settings-grid">
-            <div class="input-box"><label>น้ำหนัก</label><input type="number" id="weight" placeholder="kg"></div>
-            <div class="input-box"><label>ส่วนสูง</label><input type="number" id="height" placeholder="cm"></div>
-            <div class="input-box"><label>การนอน</label><input type="number" id="sleepHrs" placeholder="ชม."></div>
-        </div>
-        <button class="btn btn-eat" onclick="saveBodyData()" style="width:100%; margin-top: 10px;">บันทึกร่างกาย 💾</button>
-
-        <div class="api-input-container">
-            <div class="input-box">
-                <label>🔑 Gemini API Key (คีย์ส่วนตัวของคุณ)</label>
-                <input type="password" id="apiKey" placeholder="วาง AIzaSy... ที่นี่">
-            </div>
-            <button class="btn btn-pink" onclick="saveApiKey()" style="width:100%; margin-top: 10px; background: #a29bfe;">เชื่อมต่อ AI 🔑</button>
-        </div>
+    <div class="history-card">
+        <h5 style="margin:0 0 10px 0; color:var(--blue);">🗓️ รายการล่าสุด</h5>
+        <table class="log-table" id="logTable"></table>
     </div>
 
 <script>
-    let historyData = [];
-    let dailyBudget = 2000;
+    let logs = JSON.parse(localStorage.getItem('jp_logs') || '[]');
+    let nutrientChart;
 
     window.onload = () => {
-        // ดึงข้อมูลที่เซฟไว้ในเครื่องออกมาโชว์
-        ['weight', 'height', 'sleepHrs', 'apiKey'].forEach(id => {
-            const savedValue = localStorage.getItem('jp_'+id);
-            if(savedValue) document.getElementById(id).value = savedValue;
-        });
-        
-        if(localStorage.getItem('jp_history')) {
-            historyData = JSON.parse(localStorage.getItem('jp_history'));
-        }
-        calculateBMR();
+        initChart();
         updateUI();
     };
 
-    // ฟังก์ชันบันทึกสรีระและคำนวณเป้าหมายแคลอรี่
-    function saveBodyData() {
-        ['weight', 'height', 'sleepHrs'].forEach(id => {
-            localStorage.setItem('jp_'+id, document.getElementById(id).value);
+    function initChart() {
+        const ctx = document.getElementById('nutrientChart').getContext('2d');
+        nutrientChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['แป้ง', 'โปรตีน', 'ไขมัน'],
+                datasets: [{
+                    data: [1, 1, 1],
+                    backgroundColor: ['#fab1a0', '#55efc4', '#ffeaa7'],
+                    borderWidth: 0
+                }]
+            },
+            options: { cutout: '70%', plugins: { legend: { display: false } } }
         });
-        calculateBMR();
-        updateUI();
-        alert("บันทึกข้อมูลสรีระเรียบร้อยค่ะ! 🐰");
-    }
-
-    // ฟังก์ชันบันทึก API Key ลงเครื่อง (ไม่ส่งขึ้น GitHub)
-    function saveApiKey() {
-        const key = document.getElementById('apiKey').value;
-        if(key) {
-            localStorage.setItem('jp_apiKey', key);
-            alert("เชื่อมต่อ API Key เรียบร้อยแล้วค่ะ! ⚡");
-        } else {
-            alert("กรุณากรอก API Key ก่อนนะคะ");
-        }
-    }
-
-    function calculateBMR() {
-        const w = parseFloat(document.getElementById('weight').value) || 0;
-        const h = parseFloat(document.getElementById('height').value) || 0;
-        
-        if (w && h) {
-            const heightInMeters = h / 100;
-            const bmi = (w / (heightInMeters * heightInMeters)).toFixed(1);
-            let status = "";
-            if (bmi < 18.5) status = "ผอมเพรียว 🌬️";
-            else if (bmi < 23) status = "ยังสวยอยู่มาก! ✨";
-            else if (bmi < 25) status = "มีน้ำมีนวล 🍺";
-            else if (bmi < 30) status = "เริ่มอึดอัดนะจ๊ะ 👗";
-            else status = "หยุดกินเถอะแม่! 🛑";
-            document.getElementById('weightStatus').innerText = status;
-
-            // สูตรสำหรับผู้หญิง อายุ 29
-            const bmr = (10 * w) + (6.25 * h) - (5 * 29) - 161;
-            dailyBudget = Math.round(bmr * 1.1); 
-            document.getElementById('sumBudget').innerText = dailyBudget;
-        }
     }
 
     async function processEntry(type) {
-        const key = document.getElementById('apiKey').value;
-        if(!key) { alert("กรุณาใส่ API Key ในส่วน Settings ก่อนนะคะ!"); return; }
-
+        const key = localStorage.getItem('jp_apiKey');
         const input = document.getElementById('mainInput').value;
-        if(!input) return;
-
-        const prompt = type === 'eat' 
-            ? `วิเคราะห์อาหาร: "${input}" ตอบ JSON: {"name": "ชื่อเมนู", "cal": 200, "msg": "คำจิกกัดแบบกระต่ายสั้นๆ"}` 
-            : `วิเคราะห์การออกกำลังกาย: "${input}" ตอบ JSON: {"name": "ชื่อกิจกรรม", "cal": 150, "msg": "คำชมกวนๆ"}`;
+        if(!key || !input) return alert("กรุณาใส่ API Key และระบุรายการก่อนนะคะ");
 
         try {
-            // ใช้โมเดล gemini-2.0-flash ที่เสถียร
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contents: [{ parts: [{ text: `คุณคือ bunnypao ${prompt}` }] }] })
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: `วิเคราะห์ "${input}" ตอบ JSON: {"name": "ชื่อ", "cal": 100, "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทาย"}` }] }]
+                })
             });
-            
             const data = await res.json();
-            
-            if(data.error) {
-                if(data.error.code === 429) alert("ใจเย็นๆ นะคะ กดเร็วไปหน่อย พี่ Gemini ตอบไม่ทันแล้ว!");
-                else alert("เกิดข้อผิดพลาด: " + data.error.message);
-                return;
-            }
-
             const result = JSON.parse(data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim());
             
-            historyData.unshift({ id: Date.now(), name: result.name, cal: type === 'eat' ? result.cal : -result.cal, type: type });
-            document.getElementById('coachSpeech').innerText = result.msg;
-            localStorage.setItem('jp_history', JSON.stringify(historyData));
-            updateUI();
-            document.getElementById('mainInput').value = '';
-        } catch (e) { 
-            alert("เกิดข้อผิดพลาด! ลองเช็ก API Key หรืออินเทอร์เน็ตดูนะคะ"); 
-            console.error(e);
-        }
-    }
+            logs.unshift({
+                date: new Date().toLocaleDateString(),
+                name: result.name,
+                type: type,
+                cal: type === 'eat' ? result.cal : -result.cal,
+                carb: result.carb || 0,
+                pro: result.pro || 0,
+                fat: result.fat || 0
+            });
 
-    function removeLog(id) {
-        if(confirm("ลบรายการนี้ใช่ไหมคะ?")) {
-            historyData = historyData.filter(item => item.id !== id);
-            localStorage.setItem('jp_history', JSON.stringify(historyData));
+            localStorage.setItem('jp_logs', JSON.stringify(logs));
+            document.getElementById('coachSpeech').innerText = result.msg;
+            document.getElementById('mainInput').value = '';
             updateUI();
-        }
+        } catch (e) { alert("Error! ลองตรวจสอบ API Key นะคะ"); }
     }
 
     function updateUI() {
-        const totalEat = historyData.filter(i => i.type === 'eat').reduce((s, i) => s + i.cal, 0);
-        const totalBurn = Math.abs(historyData.filter(i => i.type === 'burn').reduce((s, i) => s + i.cal, 0));
-        const net = totalEat - totalBurn;
+        const today = new Date().toLocaleDateString();
+        const todayLogs = logs.filter(l => l.date === today);
 
-        document.getElementById('sumCal').innerText = totalEat;
-        document.getElementById('sumBurn').innerText = totalBurn;
-        document.getElementById('netCalDisplay').innerText = net;
+        const totals = todayLogs.reduce((acc, curr) => {
+            if(curr.type === 'eat') {
+                acc.eat += curr.cal;
+                acc.carb += curr.carb;
+                acc.pro += curr.pro;
+                acc.fat += curr.fat;
+            } else {
+                acc.burn += Math.abs(curr.cal);
+            }
+            return acc;
+        }, { eat: 0, burn: 0, carb: 0, pro: 0, fat: 0 });
 
-        const calPerc = Math.min(100, Math.max(0, (net / dailyBudget) * 100));
-        document.getElementById('calPercent').innerText = Math.round(calPerc) + '%';
-        document.getElementById('calBar').style.width = calPerc + '%';
-        document.getElementById('calBar').style.background = calPerc > 90 ? '#ff4757' : 'var(--blue)';
-        
-        const remaining = dailyBudget - net;
-        document.getElementById('analysisText').innerHTML = remaining < 0 
-            ? `⚠️ <b>วิเคราะห์:</b> เกินไป ${Math.abs(remaining)} kcal แล้ว! ตบะแตกเหรอคะ?` 
-            : `✅ <b>วิเคราะห์:</b> เหลือโควตาอีก ${remaining} kcal ทานมื้อถัดไปเบาๆ นะคะ`;
+        document.getElementById('netCal').innerText = totals.eat - totals.burn;
+        document.getElementById('sumCarb').innerText = totals.carb;
+        document.getElementById('sumPro').innerText = totals.pro;
+        document.getElementById('sumFat').innerText = totals.fat;
 
-        const logBody = document.getElementById('mealLogBody');
-        logBody.innerHTML = historyData.map(h => `
+        // Update Chart
+        nutrientChart.data.datasets[0].data = [totals.carb, totals.pro, totals.fat];
+        if(totals.carb + totals.pro + totals.fat === 0) nutrientChart.data.datasets[0].data = [1, 1, 1];
+        nutrientChart.update();
+
+        // Update Table
+        document.getElementById('logTable').innerHTML = todayLogs.slice(0, 5).map(l => `
             <tr>
-                <td style="color: ${h.type==='burn'?'var(--orange)':'inherit'}">${h.type==='burn'?'🔥':'🍔'} ${h.name}</td>
-                <td><b style="color: ${h.type==='burn'?'#27ae60':'#c0392b'}">${h.cal > 0 ? '+'+h.cal : h.cal}</b></td>
-                <td><button onclick="removeLog(${h.id})" style="color:red; border:none; background:none; font-weight:bold; cursor:pointer;">×</button></td>
+                <td>${l.type==='eat'?'🍔':'🔥'} ${l.name}</td>
+                <td style="text-align:right; font-weight:bold;">${l.cal} kcal</td>
             </tr>
         `).join('');
     }
-
-    function startBreathe() {
-        const c = document.getElementById('breatheCircle');
-        const l = document.getElementById('breatheLabel');
-        c.style.display = 'block';
-        c.style.animation = 'breatheAnim 8s infinite ease-in-out';
-        l.innerText = "หายใจเข้าลึกๆ... พักสมองบ้างนะคนเก่ง 🐰🌸";
-        setTimeout(() => { c.style.display = 'none'; l.innerText = "เก่งมากค่ะ! กลับมาสู้ต่อแบบสวยๆ นะ ✨"; }, 16000);
-    }
-
-    function resetDay() { if(confirm("เริ่มวันใหม่? รายการทั้งหมดของวันนี้จะหายไปนะคะ")) { historyData = []; localStorage.setItem('jp_history', "[]"); updateUI(); } }
 </script>
 </body>
 </html>
