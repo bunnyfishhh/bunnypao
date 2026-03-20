@@ -124,8 +124,13 @@
     </div>
 
     <div class="chart-box">
-        <h5 style="margin:0 0 10px 0; color: var(--pink);">📈 แนวโน้ม 7 วันล่าสุด</h5>
+        <h5 style="margin:0 0 10px 0; color: var(--pink);">📈 แนวโน้มแคลอรี่ 7 วัน</h5>
         <canvas id="weeklyChart" height="150"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h5 style="margin:0 0 10px 0; color: var(--blue);">⚖️ แนวโน้มน้ำหนัก 7 วัน</h5>
+        <canvas id="weightChart" height="150"></canvas>
     </div>
 
     <div class="profile-card">
@@ -145,13 +150,25 @@
 
 <script>
     let logs = JSON.parse(localStorage.getItem('jp_logs') || '[]');
+    // เก็บประวัติน้ำหนักแยกไว้ทำกราฟ
+    let weightHistory = JSON.parse(localStorage.getItem('jp_weightHistory') || '{}');
     let myChart;
+    let myWeightChart;
 
     window.onload = () => {
         ['weight', 'height', 'sleep', 'apiKey'].forEach(id => {
             const savedValue = localStorage.getItem('jp_'+id);
             if(savedValue) document.getElementById(id).value = savedValue;
         });
+
+        // 2. ระบบรีเซ็ตข้อมูลรายการวันนี้อัตโนมัติ (แสดงเฉพาะวันปัจจุบัน)
+        const lastOpen = localStorage.getItem('jp_lastOpenDate');
+        const todayStr = new Date().toLocaleDateString();
+        if(lastOpen !== todayStr) {
+            localStorage.setItem('jp_lastOpenDate', todayStr);
+            // ไม่ได้ลบ logs ทั้งหมด (เพื่อเก็บไว้ทำกราฟ) แต่หน้าจอจะกรองแสดงแค่ของวันนี้ใน calculateEverything
+        }
+
         initChart();
         calculateEverything();
     };
@@ -173,9 +190,19 @@
     }
 
     function saveBodyStats() {
-        localStorage.setItem('jp_weight', document.getElementById('weight').value);
+        const weightVal = document.getElementById('weight').value;
+        const today = new Date().toLocaleDateString();
+        
+        localStorage.setItem('jp_weight', weightVal);
         localStorage.setItem('jp_height', document.getElementById('height').value);
         localStorage.setItem('jp_sleep', document.getElementById('sleep').value);
+        
+        // บันทึกน้ำหนักลงประวัติสำหรับกราฟ
+        if(weightVal) {
+            weightHistory[today] = parseFloat(weightVal);
+            localStorage.setItem('jp_weightHistory', JSON.stringify(weightHistory));
+        }
+
         calculateEverything();
         alert("อัปเดตเรียบร้อย! 🐰✨");
     }
@@ -278,14 +305,30 @@
             data: { labels: [], datasets: [{ label: 'Net Cal', data: [], borderColor: '#ff78cb', backgroundColor: 'rgba(255,120,203,0.1)', fill: true, tension: 0.4 }] },
             options: { plugins: { legend: { display: false } } }
         });
+
+        // สร้างกราฟน้ำหนัก
+        const ctxW = document.getElementById('weightChart').getContext('2d');
+        myWeightChart = new Chart(ctxW, {
+            type: 'line',
+            data: { labels: [], datasets: [{ label: 'Weight (kg)', data: [], borderColor: '#74b9ff', backgroundColor: 'rgba(116,185,255,0.1)', fill: true, tension: 0.4 }] },
+            options: { plugins: { legend: { display: false } } }
+        });
     }
 
     function updateChart() {
         const last7 = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - i); return d.toLocaleDateString(); }).reverse();
-        const data = last7.map(date => logs.filter(l => l.date === date).reduce((s, l) => s + (l.type==='eat'?l.cal:-l.cal), 0));
+        
+        // อัปเดตกราฟแคลอรี่
+        const calData = last7.map(date => logs.filter(l => l.date === date).reduce((s, l) => s + (l.type==='eat'?l.cal:-l.cal), 0));
         myChart.data.labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
-        myChart.data.datasets[0].data = data;
+        myChart.data.datasets[0].data = calData;
         myChart.update();
+
+        // อัปเดตกราฟน้ำหนัก
+        const weightData = last7.map(date => weightHistory[date] || null); // ถ้าวันไหนไม่บันทึกจะเป็น null
+        myWeightChart.data.labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
+        myWeightChart.data.datasets[0].data = weightData;
+        myWeightChart.update();
     }
 </script>
 </body>
