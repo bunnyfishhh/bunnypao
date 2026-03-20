@@ -3,158 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>bunnypao 🐰⚡ Nutrient Focus</title>
+    <title>bunnypao 🐰⚡ Super Full Option</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --pink: #ff78cb; --blue: #74b9ff; --orange: #ff9f43; --dark: #2d3436; --bg: #f7f9fc; --success: #2ecc71; --carb: #fab1a0; --pro: #55efc4; --fat: #ffeaa7; }
-        body { font-family: 'Sarabun', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; color: var(--dark); }
+        :root { --pink: #ff78cb; --blue: #74b9ff; --orange: #ff9f43; --dark: #2d3436; --bg: #f7f9fc; --carb: #fab1a0; --pro: #55efc4; --fat: #ffeaa7; --light-pink: #fff0f9; }
+        body { font-family: 'Sarabun', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; color: var(--dark); overflow-x: hidden; }
         
+        /* Coach Bubble */
         .coach-bubble { background: white; padding: 15px; border-radius: 20px; position: relative; margin-bottom: 15px; font-size: 0.85rem; border: 2px solid var(--pink); border-left: 10px solid var(--pink); box-shadow: 0 8px 15px rgba(255,120,203,0.1); width: 100%; max-width: 480px; box-sizing: border-box; }
+        .coach-bubble::before { content: '🐰 bunnypao (ปากแจ๋ว):'; font-weight: 600; color: var(--pink); display: block; margin-bottom: 3px; }
+
+        /* Summary Dashboard */
+        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 480px; margin-bottom: 15px; }
+        .sum-card { background: white; padding: 12px; border-radius: 18px; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border-bottom: 4px solid #eee; }
+        .sum-card b { font-size: 1.1rem; color: var(--dark); }
+        .sum-card span { font-size: 0.7rem; color: #95a5a6; display: block; }
+
+        /* Report Box */
+        .report-box { background: var(--light-pink); padding: 15px; border-radius: 20px; border-left: 5px solid var(--pink); width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; text-align: left; font-size: 0.85rem; }
+        
         .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 480px; text-align: center; margin-bottom: 15px; box-sizing: border-box; }
         
-        /* Layout Grid */
-        .analysis-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; margin-bottom: 15px; align-items: center; }
-        .chart-container { position: relative; height: 160px; }
-        
-        .nutrient-stats { text-align: left; font-size: 0.8rem; }
-        .n-item { display: flex; justify-content: space-between; margin-bottom: 5px; padding: 5px 10px; border-radius: 8px; }
-        .n-carb { background: var(--carb); } .n-pro { background: var(--pro); } .n-fat { background: var(--fat); }
+        /* Analysis Section */
+        .top-analysis { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; margin-bottom: 15px; background: #fffcfd; padding: 12px; border-radius: 20px; border: 1px solid #ffeef8; }
+        .mockup-svg { width: 70px; height: 120px; }
+        .n-badge { display: flex; justify-content: space-between; padding: 4px 10px; border-radius: 8px; margin-bottom: 5px; font-size: 0.75rem; font-weight: 600; }
 
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .btn { border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; color: white; transition: 0.2s; }
-        .btn-eat { background: var(--blue); } .btn-burn { background: var(--orange); }
-        
-        textarea { width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-family: inherit; box-sizing: border-box; outline: none; }
-        .history-card { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; }
-        .log-table { width: 100%; font-size: 0.8rem; border-collapse: collapse; }
-        .log-table td { padding: 8px 0; border-bottom: 1px solid #eee; }
+        /* Progress Bar */
+        .progress-container { text-align: left; margin-bottom: 15px; }
+        .progress-bar { background: #eee; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 5px; }
+        .progress-fill { height: 100%; background: var(--blue); width: 0%; transition: 0.5s; }
+
+        /* Meditation Button */
+        .meditate-btn { background: #f06292; color: white; border: none; padding: 12px; border-radius: 15px; width: 100%; font-weight: 600; cursor: pointer; margin-top: 10px; font-size: 0.9rem; }
+
+        textarea { width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .btn { border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; color: white; }
+        .btn-eat { background: var(--blue); } .btn-burn { background: var(--orange); } .btn-pink { background: var(--pink); }
+
+        .chart-box { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); box-sizing: border-box; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="coach-bubble" id="coachSpeech">วันนี้สัดส่วนสารอาหารเป็นยังไงบ้างคะ? อย่าลืมกินโปรตีนให้ถึงนะ! 🐰💪</div>
+    <div class="coach-bubble" id="coachSpeech">ทุกอย่างกลับมาครบแล้วค่ะ! ทั้งสรุปผลและที่ฝึกสมาธิ 🐰💖</div>
 
-    <div class="card">
-        <div class="analysis-grid">
-            <div class="chart-container">
-                <canvas id="nutrientChart"></canvas>
-            </div>
-            <div class="nutrient-stats">
-                <div style="font-weight:600; margin-bottom:8px; color:var(--pink);">สารอาหารวันนี้ (กรัม)</div>
-                <div class="n-item n-carb">🍞 แป้ง: <b id="sumCarb">0</b>g</div>
-                <div class="n-item n-pro">🍗 โปรตีน: <b id="sumPro">0</b>g</div>
-                <div class="n-item n-fat">🥑 ไขมัน: <b id="sumFat">0</b>g</div>
-            </div>
-        </div>
-
-        <div style="font-size: 0.75rem; color: #636e72; margin-bottom: 10px;">
-            พลังงานสุทธิ: <span id="netCal">0</span> / 2000 kcal
-        </div>
-
-        <textarea id="mainInput" rows="2" placeholder="เช่น 'ข้าวเหนียวหมูปิ้ง 2 ไม้' หรือ 'วิ่ง 30 นาที'"></textarea>
-        <div class="btn-group">
-            <button class="btn btn-eat" onclick="processEntry('eat')">บันทึกของกิน 🍔</button>
-            <button class="btn btn-burn" onclick="processEntry('burn')">บันทึกเบิร์น 🔥</button>
-        </div>
+    <div class="summary-grid">
+        <div class="sum-card" style="border-color: var(--blue);"><span>🍔 ทานไป</span><b id="dashEat">0</b> kcal</div>
+        <div class="sum-card" style="border-color: var(--orange);"><span>🔥 เบิร์น</span><b id="dashBurn">0</b> kcal</div>
+        <div class="sum-card" style="border-color: #a29bfe;"><span>🎯 เป้าหมาย</span><b id="dashGoal">2000</b> kcal</div>
+        <div class="sum-card" style="border-color: #55efc4;"><span>⚖️ สภาพ</span><b id="dashStatus">ยังสวยอยู่มาก!</b></div>
     </div>
 
-    <div class="history-card">
-        <h5 style="margin:0 0 10px 0; color:var(--blue);">🗓️ รายการล่าสุด</h5>
-        <table class="log-table" id="logTable"></table>
+    <div class="report-box" id="reportBox">
+        <b>📊 bunnypao Report</b><br>
+        <span id="reportText">วิเคราะห์: กรอกข้อมูลเพื่อดูผลลัพธ์นะคะ</span>
+    </div>
+
+    <div class="card">
+        <div class="top-analysis">
+            <div style="text-align:center;">
+                <svg id="humanMockup" class="mockup-svg" viewBox="0 0 100 200">
+                    <circle cx="50" cy="25" r="15" fill="#FFE0BD" stroke="#333"/>
+                    <path id="bodyPath" d="M35,40 Q50,40 65,40 L60,120 Q50,120 40,120 Z" fill="#FFE0BD" stroke="#333"/>
+                    <line x1="42" y1="120" x2="35" y2="190" stroke="#333" stroke-width="3"/>
+                    <line x1="58" y1="120" x2="65" y2="190" stroke="#333" stroke-width="3"/>
+                </svg>
+                <div style="font-size:0.8rem; font-weight:600;">BMI: <span id="bmiDisplay">0.0</span></div>
+            </div>
+            <div class="nutrient-stats">
+                <div class="n-badge" style="background:var(--carb);">🍞 แป้ง: <span id="sumCarb">0</span>g</div>
+                <div class="n-badge" style="background:var(--pro);">🍗 โปรตีน: <span id="sumPro">0</span>g</div>
+                <div class="n-badge" style="background:var(--fat);">🥑 ไขมัน: <span id="sumFat">0</span>g</div>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
+                <span>โควตาสุทธิวันนี้ (Net)</span>
+                <b id="netPerc">0%</b>
+            </div>
+            <div class="progress-bar"><div id="netFill" class="progress-fill"></div></div>
+        </div>
+
+        <textarea id="mainInput" rows="2" placeholder="วันนี้ทานอะไร หรือไปเบิร์นที่ไหนมา..."></textarea>
+        <div class="btn-group">
+            <button class="btn btn-eat" onclick="processEntry('eat')">บันทึกของกิน 🚀</button>
+            <button class="btn btn-burn" onclick="processEntry('burn')">บันทึกเบิร์น 🔥</button>
+        </div>
+
+        <button class="meditate-btn" onclick="alert('หายใจเข้า... 4... หายใจห้าม... 7... หายใจออก... 8...')">
+            พักหายใจกับ bunnypao นะคะ 🌸 (4-7-8)
+        </button>
+    </div>
+
+    <div class="chart-box">
+        <h5 style="margin:0 0 10px 0; color: var(--pink);">📈 แนวโน้ม 7 วันล่าสุด</h5>
+        <canvas id="weeklyChart" height="150"></canvas>
     </div>
 
 <script>
     let logs = JSON.parse(localStorage.getItem('jp_logs') || '[]');
-    let nutrientChart;
+    let myChart;
 
     window.onload = () => {
         initChart();
-        updateUI();
+        calculateEverything();
     };
 
-    function initChart() {
-        const ctx = document.getElementById('nutrientChart').getContext('2d');
-        nutrientChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['แป้ง', 'โปรตีน', 'ไขมัน'],
-                datasets: [{
-                    data: [1, 1, 1],
-                    backgroundColor: ['#fab1a0', '#55efc4', '#ffeaa7'],
-                    borderWidth: 0
-                }]
-            },
-            options: { cutout: '70%', plugins: { legend: { display: false } } }
-        });
+    function calculateEverything() {
+        const w = parseFloat(localStorage.getItem('jp_weight')) || 53;
+        const h = parseFloat(localStorage.getItem('jp_height')) || 156;
+        const bmr = (10 * w) + (6.25 * h) - (5 * 29) - 161;
+        const goal = Math.round(bmr * 1.2);
+        
+        const today = new Date().toLocaleDateString();
+        const todayLogs = logs.filter(l => l.date === today);
+        const totals = todayLogs.reduce((acc, curr) => {
+            if(curr.type === 'eat') { acc.eat += curr.cal; acc.carb += curr.carb; acc.pro += curr.pro; acc.fat += curr.fat; }
+            else { acc.burn += Math.abs(curr.cal); }
+            return acc;
+        }, { eat: 0, burn: 0, carb: 0, pro: 0, fat: 0 });
+
+        const net = totals.eat - totals.burn;
+        const perc = Math.min(100, Math.round((net / goal) * 100));
+
+        // Update Dashboard
+        document.getElementById('dashEat').innerText = totals.eat;
+        document.getElementById('dashBurn').innerText = totals.burn;
+        document.getElementById('dashGoal').innerText = goal;
+        document.getElementById('dashStatus').innerText = perc < 90 ? "ยังสวยอยู่มาก! ✨" : "เริ่มตึงแล้วนะ 🛑";
+        
+        // Update Report
+        document.getElementById('reportText').innerText = `วิเคราะห์: เหลือโควตาอีก ${goal - net} kcal ทานมื้อถัดไปเบาๆ นะคะ`;
+        
+        // Update BMI & Mockup
+        const bmi = (w / ((h/100)**2)).toFixed(1);
+        document.getElementById('bmiDisplay').innerText = bmi;
+        let width = Math.min(80, Math.max(35, bmi * 2.1));
+        document.getElementById('bodyPath').setAttribute('d', `M${50-width/2},40 Q50,40 ${50+width/2},40 L${50+width/2.2},120 Q50,120 ${50-width/2.2},120 Z`);
+
+        // Update Progress & Nutrients
+        document.getElementById('netPerc').innerText = perc + '%';
+        document.getElementById('netFill').style.width = perc + '%';
+        document.getElementById('sumCarb').innerText = totals.carb;
+        document.getElementById('sumPro').innerText = totals.pro;
+        document.getElementById('sumFat').innerText = totals.fat;
+
+        updateChart();
     }
 
     async function processEntry(type) {
         const key = localStorage.getItem('jp_apiKey');
         const input = document.getElementById('mainInput').value;
-        if(!key || !input) return alert("กรุณาใส่ API Key และระบุรายการก่อนนะคะ");
+        if(!key || !input) return alert("กรุณาใส่ API Key และรายการก่อนนะคะ");
 
         try {
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: `วิเคราะห์ "${input}" ตอบ JSON: {"name": "ชื่อ", "cal": 100, "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทาย"}` }] }]
-                })
+                body: JSON.stringify({ contents: [{ parts: [{ text: `วิเคราะห์ "${input}" ตอบ JSON: {"cal": 100, "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทาย"}` }] }] })
             });
             const data = await res.json();
             const result = JSON.parse(data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim());
             
-            logs.unshift({
-                date: new Date().toLocaleDateString(),
-                name: result.name,
-                type: type,
-                cal: type === 'eat' ? result.cal : -result.cal,
-                carb: result.carb || 0,
-                pro: result.pro || 0,
-                fat: result.fat || 0
-            });
-
+            logs.push({ date: new Date().toLocaleDateString(), type: type, cal: result.cal, carb: result.carb, pro: result.pro, fat: result.fat });
             localStorage.setItem('jp_logs', JSON.stringify(logs));
             document.getElementById('coachSpeech').innerText = result.msg;
             document.getElementById('mainInput').value = '';
-            updateUI();
-        } catch (e) { alert("Error! ลองตรวจสอบ API Key นะคะ"); }
+            calculateEverything();
+        } catch (e) { alert("เกิดข้อผิดพลาด! ลองเช็ค API Key นะคะ"); }
     }
 
-    function updateUI() {
-        const today = new Date().toLocaleDateString();
-        const todayLogs = logs.filter(l => l.date === today);
+    function initChart() {
+        const ctx = document.getElementById('weeklyChart').getContext('2d');
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: [], datasets: [{ label: 'Net Cal', data: [], borderColor: '#ff78cb', tension: 0.4 }] },
+            options: { plugins: { legend: { display: false } } }
+        });
+    }
 
-        const totals = todayLogs.reduce((acc, curr) => {
-            if(curr.type === 'eat') {
-                acc.eat += curr.cal;
-                acc.carb += curr.carb;
-                acc.pro += curr.pro;
-                acc.fat += curr.fat;
-            } else {
-                acc.burn += Math.abs(curr.cal);
-            }
-            return acc;
-        }, { eat: 0, burn: 0, carb: 0, pro: 0, fat: 0 });
-
-        document.getElementById('netCal').innerText = totals.eat - totals.burn;
-        document.getElementById('sumCarb').innerText = totals.carb;
-        document.getElementById('sumPro').innerText = totals.pro;
-        document.getElementById('sumFat').innerText = totals.fat;
-
-        // Update Chart
-        nutrientChart.data.datasets[0].data = [totals.carb, totals.pro, totals.fat];
-        if(totals.carb + totals.pro + totals.fat === 0) nutrientChart.data.datasets[0].data = [1, 1, 1];
-        nutrientChart.update();
-
-        // Update Table
-        document.getElementById('logTable').innerHTML = todayLogs.slice(0, 5).map(l => `
-            <tr>
-                <td>${l.type==='eat'?'🍔':'🔥'} ${l.name}</td>
-                <td style="text-align:right; font-weight:bold;">${l.cal} kcal</td>
-            </tr>
-        `).join('');
+    function updateChart() {
+        const last7 = [...Array(7)].map((_, i) => {
+            const d = new Date(); d.setDate(d.getDate() - i); return d.toLocaleDateString();
+        }).reverse();
+        const data = last7.map(date => logs.filter(l => l.date === date).reduce((s, l) => s + (l.type==='eat'?l.cal:-l.cal), 0));
+        myChart.data.labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
+        myChart.data.datasets[0].data = data;
+        myChart.update();
     }
 </script>
 </body>
