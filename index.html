@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>bunnypao 🐰⚡ Ultimate Health Edition</title>
+    <title>bunnypao 🐰⚡ Ultimate Edition</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
         :root { --pink: #ff78cb; --blue: #74b9ff; --orange: #ff9f43; --dark: #2d3436; --bg: #f7f9fc; --carb: #fab1a0; --pro: #55efc4; --fat: #ffeaa7; --purple: #a29bfe; }
         body { font-family: 'Sarabun', sans-serif; background: var(--bg); display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; color: var(--dark); overflow-x: hidden; }
         
+        /* 🐰 Coach Bubble */
         .coach-bubble { background: white; padding: 15px; border-radius: 20px; position: relative; margin-bottom: 15px; font-size: 0.85rem; border: 2px solid var(--pink); border-left: 10px solid var(--pink); box-shadow: 0 8px 15px rgba(255,120,203,0.1); width: 100%; max-width: 480px; box-sizing: border-box; text-align: left; }
         .coach-bubble::before { content: '🐰 bunnypao (ปากแจ๋ว):'; font-weight: 600; color: var(--pink); display: block; margin-bottom: 3px; }
 
@@ -21,39 +22,43 @@
         .btn-fast { background: white; color: #6c5ce7; border: none; padding: 10px 20px; border-radius: 15px; font-weight: 600; cursor: pointer; transition: 0.3s; }
         .btn-fast.active { background: #ff7675; color: white; }
 
+        /* 📊 Dashboard Grid */
         .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 480px; margin-bottom: 15px; }
         .sum-card { background: white; padding: 12px; border-radius: 18px; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; }
         .sum-card span { font-size: 0.7rem; color: #95a5a6; }
         .sum-card b { font-size: 1.1rem; }
 
         .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 480px; text-align: center; margin-bottom: 15px; box-sizing: border-box; }
+        
+        /* 🍯 Analysis Section */
         .top-analysis { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; margin-bottom: 15px; background: #fffcfd; padding: 12px; border-radius: 20px; border: 1px solid #ffeef8; align-items: center; }
         .character-container { position: relative; width: 120px; height: 150px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: center; }
         .cute-character { position: relative; width: 100%; height: auto; z-index: 2; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); cursor: pointer; transition: filter 0.5s; }
-        .tummy-layer { position: absolute; bottom: 35px; width: 85px; height: 75px; background: rgba(255, 255, 255, 0.9); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; z-index: 1; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: none; }
-        
+        .tummy-layer { position: absolute; bottom: 35px; width: 85px; height: 75px; background: rgba(255, 255, 255, 0.9); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; z-index: 1; transition: 0.6s; display: none; }
+        .n-badge { display: flex; justify-content: space-between; padding: 4px 10px; border-radius: 8px; margin-bottom: 5px; font-size: 0.75rem; font-weight: 600; }
+
         textarea { width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }
         .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .btn { border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; color: white; transition: 0.3s; }
         .btn-eat { background: var(--blue); } .btn-burn { background: var(--orange); }
 
         /* 🧘 Meditation */
-        .meditate-section { border: 2px dashed #f06292; padding: 15px; border-radius: 20px; margin-top: 15px; min-height: 80px; display: flex; flex-direction: column; align-items: center; }
+        .meditate-section { border: 2px dashed #f06292; padding: 15px; border-radius: 20px; margin: 15px 0; display: flex; flex-direction: column; align-items: center; min-height: 80px; }
         .breathing-circle { width: 60px; height: 60px; background: #f06292; border-radius: 50%; margin-bottom: 10px; display: none; align-items: center; justify-content: center; color: white; font-weight: 600; }
         .inhale { animation: inhaleAnim 4s forwards linear; } .hold { animation: holdAnim 7s forwards linear; } .exhale { animation: exhaleAnim 8s forwards linear; }
         @keyframes inhaleAnim { from { transform: scale(1); } to { transform: scale(2); } }
         @keyframes holdAnim { from { transform: scale(2); } to { transform: scale(2); } }
         @keyframes exhaleAnim { from { transform: scale(2); } to { transform: scale(1); } }
 
+        /* 🗓️ Log Container */
         .log-container { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
         .log-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         .log-table td { padding: 10px 0; border-bottom: 1px solid #f9f9f9; }
-        .btn-del { color: #fab1a0; cursor: pointer; text-align: right; width: 30px; }
+        .btn-del { color: #fab1a0; cursor: pointer; text-align: right; width: 30px; font-weight: bold; }
 
+        /* 📈 Charts & Profile */
         .chart-box { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); box-sizing: border-box; margin-bottom: 15px; }
-        
-        /* ⚙️ Profile (Fixed frame) */
-        .profile-card { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; overflow: hidden; }
+        .profile-card { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; }
         .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; width: 100%; }
         .profile-input { display: flex; flex-direction: column; font-size: 0.7rem; color: #95a5a6; min-width: 0; }
         .profile-input input { padding: 8px; border-radius: 10px; border: 1px solid #eee; text-align: center; margin-top: 4px; width: 100%; box-sizing: border-box; }
@@ -83,16 +88,15 @@
                 <div id="tummy" class="tummy-layer"></div>
                 <img id="bunnyImg" src="character.png" alt="Bunny Character" class="cute-character" onclick="alert('จิ้มพุงทำไม! เดี๋ยวแม่ตีตายเลย 🐰💢')">
             </div>
-            <div style="text-align: left;">
-                <div style="font-weight:600; color:var(--pink); font-size: 0.85rem;">BMI: <b id="bmiDisplay">0.0</b></div>
-                <div style="font-size: 0.75rem; color: #666; margin-top: 5px;">นอน: <span id="sleepDisplay">0</span> ชม.</div>
-                <div style="margin-top:10px;">
-                    <div style="font-size:0.65rem; color:#aaa;">P: <span id="sumPro">0</span> / C: <span id="sumCarb">0</span> / F: <span id="sumFat">0</span> (g)</div>
-                </div>
+            <div class="nutrient-stats">
+                <div class="n-badge" style="background:var(--carb);">🍞 แป้ง: <span id="sumCarb">0</span>g</div>
+                <div class="n-badge" style="background:var(--pro);">🍗 โปรตีน: <span id="sumPro">0</span>g</div>
+                <div class="n-badge" style="background:var(--fat);">🥑 ไขมัน: <span id="sumFat">0</span>g</div>
+                <div style="margin-top:10px; font-size:0.8rem;">BMI: <b id="bmiDisplay">0.0</b></div>
             </div>
         </div>
 
-        <textarea id="mainInput" rows="2" placeholder="วันนี้ทานอะไร หรือเบิร์นที่ไหน..."></textarea>
+        <textarea id="mainInput" rows="2" placeholder="วันนี้ทานอะไร หรือไปเบิร์นที่ไหนมา..."></textarea>
         <div class="btn-group">
             <button class="btn btn-eat" onclick="processEntry('eat')">บันทึกของกิน 🚀</button>
             <button class="btn btn-burn" onclick="processEntry('burn')">บันทึกเบิร์น 🔥</button>
@@ -100,65 +104,69 @@
 
         <div class="meditate-section">
             <div id="breathCircle" class="breathing-circle"></div>
-            <p id="breathText" style="font-size:0.75rem; color:#f06292; margin: 0 0 10px 0;">หายใจไปกับบันนี่เป่า (4-7-8)</p>
-            <button id="startMedBtn" style="border:none; background:#f06292; color:white; padding:8px 15px; border-radius:10px; cursor:pointer; font-size:0.8rem;" onclick="startBreathing()">เริ่มฝึกหายใจ 🌸</button>
+            <p id="breathText" style="font-size:0.75rem; color:#f06292; margin-bottom:10px;">หายใจไปกับบันนี่เป่า 🌸</p>
+            <button class="btn" style="background:#f06292; padding:8px 20px; font-size:0.8rem;" id="startMedBtn" onclick="startBreathing()">เริ่มฝึกสมาธิ</button>
         </div>
     </div>
 
     <div class="log-container">
         <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
             <b style="font-size:0.9rem; color:var(--blue);">🗓️ รายการวันนี้</b>
-            <button onclick="resetDay()" style="border:none; background:none; color:#ccc; cursor:pointer; font-size:0.7rem;">ล้างรายการ</button>
+            <button onclick="resetDay()" style="border:none; background:#f5f5f5; padding:5px 10px; border-radius:8px; font-size:0.7rem; cursor:pointer;">เริ่มวันใหม่</button>
         </div>
         <table class="log-table" id="logTable"></table>
     </div>
 
     <div class="chart-box">
-        <h5 style="margin:0 0 10px 0; color:var(--pink); font-size:0.8rem;">📈 แนวโน้มแคลอรี่สุทธิ</h5>
+        <h5 style="margin:0 0 10px 0; color: var(--pink);">📈 แคลอรี่สุทธิ 7 วัน</h5>
         <canvas id="weeklyChart" height="150"></canvas>
     </div>
 
     <div class="chart-box">
-        <h5 style="margin:0 0 10px 0; color:var(--blue); font-size:0.8rem;">⚖️ แนวโน้มน้ำหนัก (7 วัน)</h5>
+        <h5 style="margin:0 0 10px 0; color: var(--blue);">⚖️ น้ำหนัก 7 วัน</h5>
         <canvas id="weightChart" height="150"></canvas>
     </div>
 
     <div class="profile-card">
-        <div style="font-size:0.8rem; font-weight:600; color:var(--blue);">⚙️ อัปเดตร่างกาย</div>
+        <div style="font-size:0.85rem; font-weight:600; color:var(--blue);">⚙️ ข้อมูลร่างกาย</div>
         <div class="profile-grid">
             <div class="profile-input"><label>น้ำหนัก</label><input type="number" id="weight" placeholder="kg"></div>
             <div class="profile-input"><label>ส่วนสูง</label><input type="number" id="height" placeholder="cm"></div>
             <div class="profile-input"><label>การนอน</label><input type="number" id="sleep" placeholder="ชม."></div>
         </div>
-        <button class="btn" style="background:var(--blue); width:100%; margin-top:15px;" onclick="saveBodyStats()">บันทึกร่างกาย 💾</button>
+        <div style="margin-top:15px;" class="profile-input">
+            <label>🔑 Gemini API Key</label>
+            <input type="password" id="apiKey" style="text-align:left; margin-top:5px; padding:10px; border-radius:10px; border:1px solid #eee;">
+        </div>
+        <button class="btn" style="background:var(--blue); width:100%; margin:15px 0;" onclick="saveBodyStats()">บันทึกร่างกาย 💾</button>
+        <button class="btn" style="background:var(--purple); width:100%;" onclick="saveApiKey()">เชื่อมต่อ AI 🔑</button>
     </div>
 
 <script>
-    const MY_API_KEY = "AIzaSyBx_FQIoefSp41kdHhTXWA-uWEAnCNtUu8";
     let logs = JSON.parse(localStorage.getItem('jp_logs') || '[]');
     let weightHistory = JSON.parse(localStorage.getItem('jp_weightHistory') || '{}');
     let fastStartTime = localStorage.getItem('jp_fastStart') || null;
-    let timerInterval, myChart, myWeightChart;
+    let myChart, myWeightChart, timerInterval;
 
     window.onload = () => {
-        ['weight', 'height', 'sleep'].forEach(id => {
+        ['weight', 'height', 'sleep', 'apiKey'].forEach(id => {
             const val = localStorage.getItem('jp_'+id);
             if(val) document.getElementById(id).value = val;
         });
         if(fastStartTime) startTimer();
-        initCharts();
+        initChart();
         calculateEverything();
     };
 
-    // --- Fasting Timer ---
+    // --- Fasting System ---
     function toggleFast() {
         if (!fastStartTime) {
             fastStartTime = new Date().getTime();
             localStorage.setItem('jp_fastStart', fastStartTime);
-            document.getElementById('coachSpeech').innerText = "เริ่ม Fast แล้วนะ! ห้ามแอบกินนะยะนังตัวดี! 🐰💢";
+            document.getElementById('coachSpeech').innerText = "เริ่ม Fast แล้วนะ! ห้ามแอบกินล่ะนังตัวดี 🐰💢";
             startTimer();
         } else {
-            if (confirm("จะยอมแพ้แล้วหรอ? กลับไป Fast ให้จบก่อน!")) { stopTimer(); }
+            if (confirm("จะหยุด Fast แล้วหรอ? ใจปลาซิวแท้!")) { stopTimer(); }
         }
     }
 
@@ -172,7 +180,7 @@
             const remaining = target - diff;
             if (remaining <= 0) {
                 document.getElementById('timerDisplay').innerText = "00:00:00";
-                document.getElementById('fastStatusText').innerText = "Fast สำเร็จแล้ว! เก่งมากนังตัวดี ✨";
+                document.getElementById('fastStatusText').innerText = "Fast สำเร็จ! เก่งมาก ✨";
                 stopTimer(); return;
             }
             const h = Math.floor(remaining / 3600000);
@@ -184,7 +192,7 @@
 
     function stopTimer() { clearInterval(timerInterval); fastStartTime = null; localStorage.removeItem('jp_fastStart'); document.getElementById('timerDisplay').innerText = "16:00:00"; document.getElementById('fastBtn').innerText = "เริ่ม Fast ตอนนี้! 🚀"; document.getElementById('fastBtn').classList.remove('active'); }
 
-    // --- Meditation (4-7-8) ---
+    // --- Meditation ---
     function startBreathing() {
         const circle = document.getElementById('breathCircle');
         const text = document.getElementById('breathText');
@@ -201,7 +209,7 @@
         run();
     }
 
-    // --- Core Analytics ---
+    // --- Core Logic ---
     function saveBodyStats() {
         const w = document.getElementById('weight').value;
         const today = new Date().toLocaleDateString();
@@ -210,11 +218,15 @@
         localStorage.setItem('jp_sleep', document.getElementById('sleep').value);
         if(w) { weightHistory[today] = parseFloat(w); localStorage.setItem('jp_weightHistory', JSON.stringify(weightHistory)); }
         calculateEverything(true);
-        alert("บันทึกเรียบร้อย! 🐰");
+        alert("อัปเดตเรียบร้อย! 🐰✨");
     }
 
+    function saveApiKey() { localStorage.setItem('jp_apiKey', document.getElementById('apiKey').value); alert("เชื่อมต่อ AI เรียบร้อย!"); }
+
     function calculateEverything(fromSave = false) {
-        const w = parseFloat(document.getElementById('weight').value) || 50, h = parseFloat(document.getElementById('height').value) || 160, s = parseFloat(document.getElementById('sleep').value) || 0;
+        const w = parseFloat(document.getElementById('weight').value) || 53;
+        const h = parseFloat(document.getElementById('height').value) || 156;
+        const s = parseFloat(document.getElementById('sleep').value) || 0;
         const bmi = (w / ((h/100)**2)).toFixed(1);
         const goal = Math.round(((10 * w) + (6.25 * h) - (5 * 29) - 161) * 1.2);
         const today = new Date().toLocaleDateString();
@@ -229,7 +241,6 @@
         document.getElementById('dashBurn').innerText = totals.burn;
         document.getElementById('dashGoal').innerText = goal;
         document.getElementById('bmiDisplay').innerText = bmi;
-        document.getElementById('sleepDisplay').innerText = s;
         document.getElementById('sumCarb').innerText = totals.carb;
         document.getElementById('sumPro').innerText = totals.pro;
         document.getElementById('sumFat').innerText = totals.fat;
@@ -243,22 +254,23 @@
             const bunny = document.getElementById('bunnyImg');
             if (bmi >= 23 && s < 5) {
                 document.getElementById('coachSpeech').innerText = "พุงใหญ่แต่นอนน้อย... ระบบเผาผลาญพังหมดแล้วค่ะนังทัวร์ดี! 🛑🐰";
-                bunny.style.filter = "hue-rotate(320deg) saturate(2)";
-            } else {
-                bunny.style.filter = s < 6 ? "grayscale(0.5)" : "drop-shadow(0 0 5px #ff78cb)";
-                document.getElementById('coachSpeech').innerText = s < 6 ? "นอนน้อยระวังหน้าแก่พุงย้วยนะคะ" : "นอนดีแบบนี้สิ ถึงจะผอมไว ✨";
+                if(bunny) bunny.style.filter = "hue-rotate(320deg) saturate(2)";
             }
         }
-        renderTable(todayLogs); updateCharts();
+
+        const table = document.getElementById('logTable');
+        table.innerHTML = todayLogs.map(l => `<tr><td>${l.type === 'eat' ? '🍔' : '🔥'} ${l.name}</td><td style="color:${l.type==='eat'?'#ff7675':'#55efc4'}; font-weight:600;">${l.type==='eat'?'+':'-'}${l.cal}</td><td class="btn-del" onclick="deleteLog(${logs.indexOf(l)})">×</td></tr>`).join('') || '<tr><td colspan="3" style="text-align:center; color:#ccc; padding:10px;">ยังไม่มีรายการวันนี้</td></tr>';
+        updateChart();
     }
 
     async function processEntry(type) {
-        if(fastStartTime && type === 'eat') { if(!confirm("คุณกำลัง Fast อยู่ ใจคอจะกินจริงหรอ?")) return; stopTimer(); }
+        if(fastStartTime && type === 'eat') { if(!confirm("Fast อยู่จะกินจริงดิ? บันนี่ผิดหวังนะ!")) return; stopTimer(); }
+        const key = document.getElementById('apiKey').value;
         const input = document.getElementById('mainInput').value;
-        if(!input) return;
+        if(!key || !input) return alert("กรุณาใส่ข้อมูลและ API Key ค่ะ");
         document.getElementById('coachSpeech').innerText = "ขอนึกแป๊บนะ... 🐰🔍";
         try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${MY_API_KEY}`, {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: `คุณคือ bunnypao วิเคราะห์ "${input}" ตอบ JSON: {"cal": 100, "name": "ชื่อสั้นๆ", "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทายปากแจ๋ว"}` }] }] })
             });
@@ -268,18 +280,13 @@
             localStorage.setItem('jp_logs', JSON.stringify(logs));
             document.getElementById('coachSpeech').innerText = result.msg;
             document.getElementById('mainInput').value = ''; calculateEverything();
-        } catch (e) { alert("Error!"); }
-    }
-
-    function renderTable(todayLogs) {
-        const table = document.getElementById('logTable');
-        table.innerHTML = todayLogs.map(l => `<tr><td>${l.type === 'eat' ? '🍔' : '🔥'} ${l.name}</td><td style="color:${l.type==='eat'?'#ff7675':'#55efc4'}; font-weight:600;">${l.type==='eat'?'+':'-'}${l.cal}</td><td class="btn-del" onclick="deleteLog(${logs.indexOf(l)})">×</td></tr>`).join('') || '<tr><td colspan="3" style="text-align:center; color:#ccc;">ไม่มีรายการวันนี้</td></tr>';
+        } catch (e) { alert("Error! ลองเช็ค API Key ดูนะคะ"); }
     }
 
     function deleteLog(i) { logs.splice(i,1); localStorage.setItem('jp_logs', JSON.stringify(logs)); calculateEverything(); }
-    function resetDay() { if(confirm("ล้างรายการ?")) { const t = new Date().toLocaleDateString(); logs = logs.filter(l => l.date !== t); localStorage.setItem('jp_logs', JSON.stringify(logs)); calculateEverything(); } }
+    function resetDay() { if(confirm("ล้างรายการวันนี้?")) { const t = new Date().toLocaleDateString(); logs = logs.filter(l => l.date !== t); localStorage.setItem('jp_logs', JSON.stringify(logs)); calculateEverything(); } }
 
-    function initCharts() {
+    function initChart() {
         myChart = new Chart(document.getElementById('weeklyChart').getContext('2d'), {
             type: 'line', data: { labels: [], datasets: [{ label: 'Net Cal', data: [], borderColor: '#ff78cb', backgroundColor: 'rgba(255,120,203,0.1)', fill: true, tension: 0.4 }] },
             options: { plugins: { legend: { display: false } } }
@@ -290,14 +297,12 @@
         });
     }
 
-    function updateCharts() {
+    function updateChart() {
         const last7 = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - i); return d.toLocaleDateString(); }).reverse();
         const labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
-        
         myChart.data.labels = labels;
         myChart.data.datasets[0].data = last7.map(d => logs.filter(l => l.date === d).reduce((s, l) => s + (l.type==='eat'?l.cal:-l.cal), 0));
         myChart.update();
-
         myWeightChart.data.labels = labels;
         myWeightChart.data.datasets[0].data = last7.map(d => weightHistory[d] || null);
         myWeightChart.update();
