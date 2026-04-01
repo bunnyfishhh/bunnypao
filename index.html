@@ -270,7 +270,7 @@
         if(!key || !input) return alert("กรุณาใส่ข้อมูลและ API Key ค่ะ");
         document.getElementById('coachSpeech').innerText = "ขอนึกแป๊บนะ... 🐰🔍";
         try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: `คุณคือ bunnypao วิเคราะห์ "${input}" ตอบ JSON: {"cal": 100, "name": "ชื่อสั้นๆ", "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทายปากแจ๋ว"}` }] }] })
             });
