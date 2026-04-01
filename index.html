@@ -49,7 +49,7 @@
         @keyframes exhaleAnim { from { transform: scale(2); opacity: 1; } to { transform: scale(1); opacity: 0.5; } }
         .meditate-btn { background: #f06292; color: white; border: none; padding: 12px; border-radius: 15px; width: 100%; font-weight: 600; cursor: pointer; }
 
-        /* 🗓️ แถบรายการ (ย้ายตำแหน่งมาล่างสุด) */
+        /* 🗓️ แถบรายการ */
         .log-container { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
         .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .log-header b { color: var(--blue); font-size: 0.9rem; }
@@ -119,8 +119,7 @@
             <b>🗓️ รายการวันนี้ (Net: <span id="netCal">0</span>)</b>
             <button class="btn-reset" onclick="resetDay()">เริ่มวันใหม่</button>
         </div>
-        <table class="log-table" id="logTable">
-            </table>
+        <table class="log-table" id="logTable"></table>
     </div>
 
     <div class="chart-box">
@@ -140,33 +139,28 @@
             <div class="profile-input"><label>ส่วนสูง</label><input type="number" id="height" placeholder="cm"></div>
             <div class="profile-input"><label>การนอน</label><input type="number" id="sleep" placeholder="ชม."></div>
         </div>
-        <div style="margin-top:15px;" class="profile-input">
-            <label>🔑 Gemini API Key</label>
-            <input type="password" id="apiKey" style="text-align:left; margin-top:5px;">
-        </div>
-        <button class="btn" style="background:var(--blue); width:100%; margin:15px 0;" onclick="saveBodyStats()">บันทึกร่างกาย & อัปเดตพุง 💾</button>
-        <button class="btn" style="background:#a29bfe; width:100%;" onclick="saveApiKey()">เชื่อมต่อ AI 🔑</button>
+        <button class="btn" style="background:var(--blue); width:100%; margin-top:15px;" onclick="saveBodyStats()">บันทึกร่างกาย & อัปเดตพุง 💾</button>
     </div>
 
 <script>
+    // 🔑 ฝัง API Key เรียบร้อยแล้ว
+    const MY_API_KEY = "AIzaSyBx_FQIoefSp41kdHhTXWA-uWEAnCNtUu8"; 
+
     let logs = JSON.parse(localStorage.getItem('jp_logs') || '[]');
-    // เก็บประวัติน้ำหนักแยกไว้ทำกราฟ
     let weightHistory = JSON.parse(localStorage.getItem('jp_weightHistory') || '{}');
     let myChart;
     let myWeightChart;
 
     window.onload = () => {
-        ['weight', 'height', 'sleep', 'apiKey'].forEach(id => {
+        ['weight', 'height', 'sleep'].forEach(id => {
             const savedValue = localStorage.getItem('jp_'+id);
             if(savedValue) document.getElementById(id).value = savedValue;
         });
 
-        // 2. ระบบรีเซ็ตข้อมูลรายการวันนี้อัตโนมัติ (แสดงเฉพาะวันปัจจุบัน)
         const lastOpen = localStorage.getItem('jp_lastOpenDate');
         const todayStr = new Date().toLocaleDateString();
         if(lastOpen !== todayStr) {
             localStorage.setItem('jp_lastOpenDate', todayStr);
-            // ไม่ได้ลบ logs ทั้งหมด (เพื่อเก็บไว้ทำกราฟ) แต่หน้าจอจะกรองแสดงแค่ของวันนี้ใน calculateEverything
         }
 
         initChart();
@@ -192,24 +186,15 @@
     function saveBodyStats() {
         const weightVal = document.getElementById('weight').value;
         const today = new Date().toLocaleDateString();
-        
         localStorage.setItem('jp_weight', weightVal);
         localStorage.setItem('jp_height', document.getElementById('height').value);
         localStorage.setItem('jp_sleep', document.getElementById('sleep').value);
-        
-        // บันทึกน้ำหนักลงประวัติสำหรับกราฟ
         if(weightVal) {
             weightHistory[today] = parseFloat(weightVal);
             localStorage.setItem('jp_weightHistory', JSON.stringify(weightHistory));
         }
-
         calculateEverything();
         alert("อัปเดตเรียบร้อย! 🐰✨");
-    }
-
-    function saveApiKey() {
-        localStorage.setItem('jp_apiKey', document.getElementById('apiKey').value);
-        alert("เชื่อมต่อ AI เรียบร้อย!");
     }
 
     function calculateEverything() {
@@ -217,36 +202,29 @@
         const h = parseFloat(document.getElementById('height').value) || 156;
         const bmr = (10 * w) + (6.25 * h) - (5 * 29) - 161;
         const goal = Math.round(bmr * 1.2);
-        
         const today = new Date().toLocaleDateString();
         const todayLogs = logs.filter(l => l.date === today);
-        
         const totals = todayLogs.reduce((acc, curr) => {
             if(curr.type === 'eat') { acc.eat += curr.cal; acc.carb += curr.carb; acc.pro += curr.pro; acc.fat += curr.fat; }
             else { acc.burn += Math.abs(curr.cal); }
             return acc;
         }, { eat: 0, burn: 0, carb: 0, pro: 0, fat: 0 });
-
         const net = totals.eat - totals.burn;
         document.getElementById('dashEat').innerText = totals.eat;
         document.getElementById('dashBurn').innerText = totals.burn;
         document.getElementById('dashGoal').innerText = goal;
         document.getElementById('netCal').innerText = net;
-        
         const bmi = (w / ((h/100)**2)).toFixed(1);
         document.getElementById('bmiDisplay').innerText = bmi;
-        
         const tummy = document.getElementById('tummy');
         tummy.style.display = 'block';
         let tummyScale = Math.min(2.3, Math.max(0.7, 0.8 + (Math.max(0, bmi - 21) * 0.15))); 
         tummy.style.transform = `scale(${tummyScale})`;
-        
         document.getElementById('dashStatus').innerText = bmi < 18.5 ? "บางกรอบ 🌬️" : bmi < 23 ? "หุ่นดีมาก ✨" : bmi < 25 ? "เริ่มมีพุง 🍺" : "พุงพลุ้ย 🛑";
         document.getElementById('reportText').innerText = `เหลือโควตาอีก ${goal - net} kcal นะคะ กินพอดีๆ นะ!`;
         document.getElementById('sumCarb').innerText = totals.carb;
         document.getElementById('sumPro').innerText = totals.pro;
         document.getElementById('sumFat').innerText = totals.fat;
-        
         const table = document.getElementById('logTable');
         table.innerHTML = todayLogs.map((l, i) => `
             <tr>
@@ -255,30 +233,27 @@
                 <td class="btn-del" onclick="deleteLog(${logs.indexOf(l)})">×</td>
             </tr>
         `).join('') || '<tr><td colspan="3" style="text-align:center; color:#ccc; padding:20px;">ยังไม่มีรายการวันนี้</td></tr>';
-
         updateChart();
     }
 
     async function processEntry(type) {
-        const key = document.getElementById('apiKey').value;
         const input = document.getElementById('mainInput').value;
-        if(!key || !input) return alert("กรุณาใส่ข้อมูลและ API Key ค่ะ");
+        if(!input) return alert("กรุณาใส่ข้อมูลอาหารหรือกิจกรรมก่อนค่ะ 🐰");
         document.getElementById('coachSpeech').innerText = "ขอนึกแป๊บนะ... 🐰🔍";
         try {
-            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${MY_API_KEY}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: `คุณคือ bunnypao วิเคราะห์ "${input}" ตอบ JSON: {"cal": 100, "name": "ชื่อสั้นๆ", "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทายปากแจ๋ว"}` }] }] })
             });
             const data = await res.json();
             const result = JSON.parse(data.candidates[0].content.parts[0].text.replace(/```json|```/g, '').trim());
-            
             logs.push({ date: new Date().toLocaleDateString(), type: type, name: result.name, cal: result.cal, carb: result.carb, pro: result.pro, fat: result.fat });
             localStorage.setItem('jp_logs', JSON.stringify(logs));
             document.getElementById('coachSpeech').innerText = result.msg;
             document.getElementById('mainInput').value = '';
             calculateEverything();
-        } catch (e) { alert("Error!"); }
+        } catch (e) { alert("Error! ตรวจสอบการเชื่อมต่ออินเทอร์เน็ตหรือความถูกต้องของ API Key นะคะ"); }
     }
 
     function deleteLog(index) {
@@ -305,8 +280,6 @@
             data: { labels: [], datasets: [{ label: 'Net Cal', data: [], borderColor: '#ff78cb', backgroundColor: 'rgba(255,120,203,0.1)', fill: true, tension: 0.4 }] },
             options: { plugins: { legend: { display: false } } }
         });
-
-        // สร้างกราฟน้ำหนัก
         const ctxW = document.getElementById('weightChart').getContext('2d');
         myWeightChart = new Chart(ctxW, {
             type: 'line',
@@ -317,15 +290,11 @@
 
     function updateChart() {
         const last7 = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - i); return d.toLocaleDateString(); }).reverse();
-        
-        // อัปเดตกราฟแคลอรี่
         const calData = last7.map(date => logs.filter(l => l.date === date).reduce((s, l) => s + (l.type==='eat'?l.cal:-l.cal), 0));
         myChart.data.labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
         myChart.data.datasets[0].data = calData;
         myChart.update();
-
-        // อัปเดตกราฟน้ำหนัก
-        const weightData = last7.map(date => weightHistory[date] || null); // ถ้าวันไหนไม่บันทึกจะเป็น null
+        const weightData = last7.map(date => weightHistory[date] || null);
         myWeightChart.data.labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
         myWeightChart.data.datasets[0].data = weightData;
         myWeightChart.update();
