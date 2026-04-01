@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>bunnypao 🐰⚡ Fasting Edition</title>
+    <title>bunnypao 🐰⚡ Ultimate Health Edition</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
@@ -15,9 +15,10 @@
         .coach-bubble { background: white; padding: 15px; border-radius: 20px; position: relative; margin-bottom: 15px; font-size: 0.85rem; border: 2px solid var(--pink); border-left: 10px solid var(--pink); box-shadow: 0 8px 15px rgba(255,120,203,0.1); width: 100%; max-width: 480px; box-sizing: border-box; text-align: left; }
         .coach-bubble::before { content: '🐰 bunnypao (ปากแจ๋ว):'; font-weight: 600; color: var(--pink); display: block; margin-bottom: 3px; }
 
-        .fast-card { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: white; padding: 20px; border-radius: 25px; width: 100%; max-width: 480px; margin-bottom: 15px; box-sizing: border-box; text-align: center; box-shadow: 0 10px 20px rgba(108, 92, 231, 0.2); }
-        .fast-timer { font-size: 2.5rem; font-weight: 600; margin: 10px 0; font-variant-numeric: tabular-nums; }
-        .btn-fast { background: white; color: #6c5ce7; border: none; padding: 10px 25px; border-radius: 15px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        /* 🕒 Fast Timer */
+        .fast-card { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: white; padding: 20px; border-radius: 25px; width: 100%; max-width: 480px; margin-bottom: 15px; box-sizing: border-box; text-align: center; box-shadow: 0 10px 20px rgba(108, 92, 231, 0.15); }
+        .fast-timer { font-size: 2.5rem; font-weight: 600; margin: 5px 0; font-variant-numeric: tabular-nums; }
+        .btn-fast { background: white; color: #6c5ce7; border: none; padding: 10px 20px; border-radius: 15px; font-weight: 600; cursor: pointer; transition: 0.3s; }
         .btn-fast.active { background: #ff7675; color: white; }
 
         .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 480px; margin-bottom: 15px; }
@@ -28,13 +29,21 @@
         .card { background: white; padding: 20px; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 480px; text-align: center; margin-bottom: 15px; box-sizing: border-box; }
         .top-analysis { display: grid; grid-template-columns: 1fr 1.2fr; gap: 10px; margin-bottom: 15px; background: #fffcfd; padding: 12px; border-radius: 20px; border: 1px solid #ffeef8; align-items: center; }
         .character-container { position: relative; width: 120px; height: 150px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: center; }
-        .cute-character { position: relative; width: 100%; height: auto; z-index: 2; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); cursor: pointer; }
+        .cute-character { position: relative; width: 100%; height: auto; z-index: 2; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); cursor: pointer; transition: filter 0.5s; }
         .tummy-layer { position: absolute; bottom: 35px; width: 85px; height: 75px; background: rgba(255, 255, 255, 0.9); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; z-index: 1; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: none; }
         
         textarea { width: 100%; padding: 12px; border: 2px solid #f0f0f0; border-radius: 12px; margin-bottom: 10px; font-family: inherit; font-size: 0.9rem; outline: none; box-sizing: border-box; }
         .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .btn { border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; color: white; transition: 0.3s; }
         .btn-eat { background: var(--blue); } .btn-burn { background: var(--orange); }
+
+        /* 🧘 Meditation */
+        .meditate-section { border: 2px dashed #f06292; padding: 15px; border-radius: 20px; margin-top: 15px; min-height: 80px; display: flex; flex-direction: column; align-items: center; }
+        .breathing-circle { width: 60px; height: 60px; background: #f06292; border-radius: 50%; margin-bottom: 10px; display: none; align-items: center; justify-content: center; color: white; font-weight: 600; }
+        .inhale { animation: inhaleAnim 4s forwards linear; } .hold { animation: holdAnim 7s forwards linear; } .exhale { animation: exhaleAnim 8s forwards linear; }
+        @keyframes inhaleAnim { from { transform: scale(1); } to { transform: scale(2); } }
+        @keyframes holdAnim { from { transform: scale(2); } to { transform: scale(2); } }
+        @keyframes exhaleAnim { from { transform: scale(2); } to { transform: scale(1); } }
 
         .log-container { background: white; border-radius: 20px; padding: 15px; width: 100%; max-width: 480px; box-sizing: border-box; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
         .log-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
@@ -50,7 +59,7 @@
 </head>
 <body>
 
-    <div class="coach-bubble" id="coachSpeech">สวัสดีค่ะ! พร้อมจะเบิร์นพุงหรือยังคะ? 🐰🌸</div>
+    <div class="coach-bubble" id="coachSpeech">สวัสดีค่ะ! บันนี่เป่ารอสับพุงคุณอยู่นะคะ 🐰🌸</div>
 
     <div class="fast-card">
         <div style="font-size: 0.8rem; opacity: 0.9;">⏳ Fasting Timer (16/8)</div>
@@ -70,24 +79,27 @@
         <div class="top-analysis">
             <div class="character-container">
                 <div id="tummy" class="tummy-layer"></div>
-                <img id="bunnyImg" src="character.png" alt="Bunny Character" class="cute-character" onclick="alert('จิ้มพุงทำไม! ไป Fast เลยนะ! 🐰💢')">
+                <img id="bunnyImg" src="character.png" alt="Bunny Character" class="cute-character" onclick="alert('จิ้มพุงทำไม! เดี๋ยวแม่ตีตายเลย 🐰💢')">
             </div>
             <div style="text-align: left;">
-                <div style="font-weight:600; color:var(--pink); font-size: 0.8rem;">BMI: <b id="bmiDisplay">0.0</b></div>
+                <div style="font-weight:600; color:var(--pink); font-size: 0.85rem;">BMI: <b id="bmiDisplay">0.0</b></div>
                 <div style="font-size: 0.75rem; color: #666; margin-top: 5px;">นอน: <span id="sleepDisplay">0</span> ชม.</div>
                 <div style="margin-top:10px;">
-                    <div style="font-size:0.65rem; color:#aaa;">แป้ง/โปร/ไข (g)</div>
-                    <span id="sumCarb" style="color:var(--carb); font-weight:600;">0</span> / 
-                    <span id="sumPro" style="color:var(--pro); font-weight:600;">0</span> / 
-                    <span id="sumFat" style="color:var(--fat); font-weight:600;">0</span>
+                    <div style="font-size:0.65rem; color:#aaa;">P: <span id="sumPro">0</span> / C: <span id="sumCarb">0</span> / F: <span id="sumFat">0</span> (g)</div>
                 </div>
             </div>
         </div>
 
-        <textarea id="mainInput" rows="2" placeholder="วันนี้ทานอะไร หรือไปเบิร์นที่ไหนมา..."></textarea>
+        <textarea id="mainInput" rows="2" placeholder="วันนี้ทานอะไร หรือเบิร์นที่ไหน..."></textarea>
         <div class="btn-group">
             <button class="btn btn-eat" onclick="processEntry('eat')">บันทึกของกิน 🚀</button>
             <button class="btn btn-burn" onclick="processEntry('burn')">บันทึกเบิร์น 🔥</button>
+        </div>
+
+        <div class="meditate-section">
+            <div id="breathCircle" class="breathing-circle"></div>
+            <p id="breathText" style="font-size:0.75rem; color:#f06292; margin: 0 0 10px 0;">หายใจไปกับบันนี่เป่า (4-7-8)</p>
+            <button id="startMedBtn" style="border:none; background:#f06292; color:white; padding:8px 15px; border-radius:10px; cursor:pointer; font-size:0.8rem;" onclick="startBreathing()">เริ่มฝึกหายใจ 🌸</button>
         </div>
     </div>
 
@@ -100,17 +112,23 @@
     </div>
 
     <div class="chart-box">
+        <h5 style="margin:0 0 10px 0; color:var(--pink); font-size:0.8rem;">📈 แนวโน้มแคลอรี่สุทธิ</h5>
         <canvas id="weeklyChart" height="150"></canvas>
     </div>
 
+    <div class="chart-box">
+        <h5 style="margin:0 0 10px 0; color:var(--blue); font-size:0.8rem;">⚖️ แนวโน้มน้ำหนัก (7 วัน)</h5>
+        <canvas id="weightChart" height="150"></canvas>
+    </div>
+
     <div class="profile-card">
-        <div style="font-size:0.8rem; font-weight:600; color:var(--blue);">⚙️ ข้อมูลร่างกาย</div>
+        <div style="font-size:0.8rem; font-weight:600; color:var(--blue);">⚙️ อัปเดตร่างกาย</div>
         <div class="profile-grid">
             <div class="profile-input"><label>น้ำหนัก</label><input type="number" id="weight" placeholder="kg"></div>
             <div class="profile-input"><label>ส่วนสูง</label><input type="number" id="height" placeholder="cm"></div>
             <div class="profile-input"><label>การนอน</label><input type="number" id="sleep" placeholder="ชม."></div>
         </div>
-        <button class="btn" style="background:var(--blue); width:100%; margin-top:10px;" onclick="saveBodyStats()">บันทึก & อัปเดตพุง 💾</button>
+        <button class="btn" style="background:var(--blue); width:100%; margin-top:15px;" onclick="saveBodyStats()">บันทึกร่างกาย 💾</button>
     </div>
 
 <script>
@@ -118,7 +136,7 @@
     let logs = JSON.parse(localStorage.getItem('jp_logs') || '[]');
     let weightHistory = JSON.parse(localStorage.getItem('jp_weightHistory') || '{}');
     let fastStartTime = localStorage.getItem('jp_fastStart') || null;
-    let timerInterval;
+    let timerInterval, myChart, myWeightChart;
 
     window.onload = () => {
         ['weight', 'height', 'sleep'].forEach(id => {
@@ -126,82 +144,77 @@
             if(val) document.getElementById(id).value = val;
         });
         if(fastStartTime) startTimer();
-        initChart();
+        initCharts();
         calculateEverything();
     };
 
-    // --- Fasting Logic ---
+    // --- Fasting Timer ---
     function toggleFast() {
         if (!fastStartTime) {
             fastStartTime = new Date().getTime();
             localStorage.setItem('jp_fastStart', fastStartTime);
-            document.getElementById('coachSpeech').innerText = "เริ่ม Fast แล้วนะ! ห้ามกินแม้แต่คำเดียว ไม่งั้นแม่ตบปากแตก! 🐰💢";
+            document.getElementById('coachSpeech').innerText = "เริ่ม Fast แล้วนะ! ห้ามแอบกินนะยะนังตัวดี! 🐰💢";
             startTimer();
         } else {
-            if (confirm("จะเลิก Fast แล้วหรอ? ใจปลาซิวแท้! ยอมรับความพ่ายแพ้ใช่ไหม?")) {
-                stopTimer();
-                document.getElementById('coachSpeech').innerText = "กิเลสหนานะเราน่ะ... กลับไปกินไป๊! 🐰🙄";
-            }
+            if (confirm("จะยอมแพ้แล้วหรอ? กลับไป Fast ให้จบก่อน!")) { stopTimer(); }
         }
     }
 
     function startTimer() {
         const btn = document.getElementById('fastBtn');
-        btn.innerText = "หยุด Fast (ยอมแพ้) 🛑";
-        btn.classList.add('active');
-        document.getElementById('fastStatusText').innerText = "กำลังเผาผลาญไขมัน... สู้เขา!";
-        
+        btn.innerText = "หยุด Fast (ยอมแพ้) 🛑"; btn.classList.add('active');
         timerInterval = setInterval(() => {
             const now = new Date().getTime();
             const diff = now - fastStartTime;
-            const target = 16 * 60 * 60 * 1000; // 16 hours
+            const target = 16 * 60 * 60 * 1000;
             const remaining = target - diff;
-
             if (remaining <= 0) {
                 document.getElementById('timerDisplay').innerText = "00:00:00";
                 document.getElementById('fastStatusText').innerText = "Fast สำเร็จแล้ว! เก่งมากนังตัวดี ✨";
-                stopTimer();
-                return;
+                stopTimer(); return;
             }
-
-            const h = Math.floor(remaining / (1000 * 60 * 60));
-            const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((remaining % (1000 * 60)) / 1000);
-            document.getElementById('timerDisplay').innerText = 
-                `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            const h = Math.floor(remaining / 3600000);
+            const m = Math.floor((remaining % 3600000) / 60000);
+            const s = Math.floor((remaining % 60000) / 1000);
+            document.getElementById('timerDisplay').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
         }, 1000);
     }
 
-    function stopTimer() {
-        clearInterval(timerInterval);
-        fastStartTime = null;
-        localStorage.removeItem('jp_fastStart');
-        document.getElementById('timerDisplay').innerText = "16:00:00";
-        document.getElementById('fastStatusText').innerText = "ยังไม่ได้เริ่ม Fast ค่ะนังตัวดี!";
-        const btn = document.getElementById('fastBtn');
-        btn.innerText = "เริ่ม Fast ตอนนี้! 🚀";
-        btn.classList.remove('active');
+    function stopTimer() { clearInterval(timerInterval); fastStartTime = null; localStorage.removeItem('jp_fastStart'); document.getElementById('timerDisplay').innerText = "16:00:00"; document.getElementById('fastBtn').innerText = "เริ่ม Fast ตอนนี้! 🚀"; document.getElementById('fastBtn').classList.remove('active'); }
+
+    // --- Meditation (4-7-8) ---
+    function startBreathing() {
+        const circle = document.getElementById('breathCircle');
+        const text = document.getElementById('breathText');
+        const btn = document.getElementById('startMedBtn');
+        btn.style.display = 'none'; circle.style.display = 'flex';
+        let step = 0; 
+        const routine = [{ l: "หายใจเข้า...", c: "inhale", t: 4 }, { l: "กลั้นไว้...", c: "hold", t: 7 }, { l: "หายใจออก...", c: "exhale", t: 8 }];
+        function run() {
+            if (step >= routine.length) { circle.style.display = 'none'; btn.style.display = 'block'; text.innerText = "รู้สึกเบาขึ้นไหมคะ? 🌸"; return; }
+            const cur = routine[step]; circle.className = "breathing-circle " + cur.c; text.innerText = cur.l;
+            let time = cur.t; circle.innerText = time;
+            const timer = setInterval(() => { time--; circle.innerText = time; if (time <= 0) { clearInterval(timer); step++; run(); } }, 1000);
+        }
+        run();
     }
 
-    // --- Core Logic ---
+    // --- Core Analytics ---
     function saveBodyStats() {
         const w = document.getElementById('weight').value;
-        const s = document.getElementById('sleep').value;
         const today = new Date().toLocaleDateString();
         localStorage.setItem('jp_weight', w);
         localStorage.setItem('jp_height', document.getElementById('height').value);
-        localStorage.setItem('jp_sleep', s);
+        localStorage.setItem('jp_sleep', document.getElementById('sleep').value);
         if(w) { weightHistory[today] = parseFloat(w); localStorage.setItem('jp_weightHistory', JSON.stringify(weightHistory)); }
         calculateEverything(true);
+        alert("บันทึกเรียบร้อย! 🐰");
     }
 
     function calculateEverything(fromSave = false) {
-        const w = parseFloat(document.getElementById('weight').value) || 53;
-        const h = parseFloat(document.getElementById('height').value) || 156;
-        const s = parseFloat(document.getElementById('sleep').value) || 0;
+        const w = parseFloat(document.getElementById('weight').value) || 50, h = parseFloat(document.getElementById('height').value) || 160, s = parseFloat(document.getElementById('sleep').value) || 0;
         const bmi = (w / ((h/100)**2)).toFixed(1);
         const goal = Math.round(((10 * w) + (6.25 * h) - (5 * 29) - 161) * 1.2);
-        
         const today = new Date().toLocaleDateString();
         const todayLogs = logs.filter(l => l.date === today);
         const totals = todayLogs.reduce((acc, curr) => {
@@ -234,24 +247,17 @@
                 document.getElementById('coachSpeech').innerText = s < 6 ? "นอนน้อยระวังหน้าแก่พุงย้วยนะคะ" : "นอนดีแบบนี้สิ ถึงจะผอมไว ✨";
             }
         }
-
-        const table = document.getElementById('logTable');
-        table.innerHTML = todayLogs.map(l => `<tr><td>${l.type === 'eat' ? '🍔' : '🔥'} ${l.name}</td><td style="color:${l.type==='eat'?'#ff7675':'#55efc4'}">${l.type==='eat'?'+':'-'}${l.cal}</td><td class="btn-del" onclick="deleteLog(${logs.indexOf(l)})">×</td></tr>`).join('') || '<tr><td colspan="3" style="text-align:center; color:#ccc;">ไม่มีรายการ</td></tr>';
-        updateChart();
+        renderTable(todayLogs); updateCharts();
     }
 
     async function processEntry(type) {
-        if(fastStartTime && type === 'eat') {
-            if(!confirm("คุณกำลัง Fast อยู่ใจคอจะกินจริงๆ หรอ? บันนี่ผิดหวังในตัวคุณมากนะ! 🐰💢")) return;
-            stopTimer();
-        }
+        if(fastStartTime && type === 'eat') { if(!confirm("คุณกำลัง Fast อยู่ ใจคอจะกินจริงหรอ?")) return; stopTimer(); }
         const input = document.getElementById('mainInput').value;
         if(!input) return;
-        document.getElementById('coachSpeech').innerText = "วิเคราะห์แป๊บนะ... 🐰🔍";
+        document.getElementById('coachSpeech').innerText = "ขอนึกแป๊บนะ... 🐰🔍";
         try {
             const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${MY_API_KEY}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contents: [{ parts: [{ text: `คุณคือ bunnypao วิเคราะห์ "${input}" ตอบ JSON: {"cal": 100, "name": "ชื่อสั้นๆ", "carb": 10, "pro": 10, "fat": 5, "msg": "คำทักทายปากแจ๋ว"}` }] }] })
             });
             const data = await res.json();
@@ -259,27 +265,40 @@
             logs.push({ date: new Date().toLocaleDateString(), type, ...result });
             localStorage.setItem('jp_logs', JSON.stringify(logs));
             document.getElementById('coachSpeech').innerText = result.msg;
-            document.getElementById('mainInput').value = '';
-            calculateEverything();
+            document.getElementById('mainInput').value = ''; calculateEverything();
         } catch (e) { alert("Error!"); }
     }
 
-    function deleteLog(i) { logs.splice(i,1); localStorage.setItem('jp_logs', JSON.stringify(logs)); calculateEverything(); }
-    function resetDay() { if(confirm("ล้างรายการวันนี้?")) { const t = new Date().toLocaleDateString(); logs = logs.filter(l => l.date !== t); localStorage.setItem('jp_logs', JSON.stringify(logs)); calculateEverything(); } }
+    function renderTable(todayLogs) {
+        const table = document.getElementById('logTable');
+        table.innerHTML = todayLogs.map(l => `<tr><td>${l.type === 'eat' ? '🍔' : '🔥'} ${l.name}</td><td style="color:${l.type==='eat'?'#ff7675':'#55efc4'}; font-weight:600;">${l.type==='eat'?'+':'-'}${l.cal}</td><td class="btn-del" onclick="deleteLog(${logs.indexOf(l)})">×</td></tr>`).join('') || '<tr><td colspan="3" style="text-align:center; color:#ccc;">ไม่มีรายการวันนี้</td></tr>';
+    }
 
-    function initChart() {
+    function deleteLog(i) { logs.splice(i,1); localStorage.setItem('jp_logs', JSON.stringify(logs)); calculateEverything(); }
+    function resetDay() { if(confirm("ล้างรายการ?")) { const t = new Date().toLocaleDateString(); logs = logs.filter(l => l.date !== t); localStorage.setItem('jp_logs', JSON.stringify(logs)); calculateEverything(); } }
+
+    function initCharts() {
         myChart = new Chart(document.getElementById('weeklyChart').getContext('2d'), {
-            type: 'line',
-            data: { labels: [], datasets: [{ label: 'Net Cal', data: [], borderColor: '#ff78cb', fill: true, tension: 0.4 }] },
+            type: 'line', data: { labels: [], datasets: [{ label: 'Net Cal', data: [], borderColor: '#ff78cb', backgroundColor: 'rgba(255,120,203,0.1)', fill: true, tension: 0.4 }] },
+            options: { plugins: { legend: { display: false } } }
+        });
+        myWeightChart = new Chart(document.getElementById('weightChart').getContext('2d'), {
+            type: 'line', data: { labels: [], datasets: [{ label: 'Weight', data: [], borderColor: '#74b9ff', backgroundColor: 'rgba(116,185,255,0.1)', fill: true, tension: 0.4 }] },
             options: { plugins: { legend: { display: false } } }
         });
     }
 
-    function updateChart() {
+    function updateCharts() {
         const last7 = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - i); return d.toLocaleDateString(); }).reverse();
-        myChart.data.labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
+        const labels = last7.map(d => d.split('/')[0]+'/'+d.split('/')[1]);
+        
+        myChart.data.labels = labels;
         myChart.data.datasets[0].data = last7.map(d => logs.filter(l => l.date === d).reduce((s, l) => s + (l.type==='eat'?l.cal:-l.cal), 0));
         myChart.update();
+
+        myWeightChart.data.labels = labels;
+        myWeightChart.data.datasets[0].data = last7.map(d => weightHistory[d] || null);
+        myWeightChart.update();
     }
 </script>
 </body>
